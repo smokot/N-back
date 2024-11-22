@@ -249,3 +249,8 @@ img {
 .yellow{
     color: #97e83a;
 }
+.version{
+    margin-top: 750px;
+    font-size: 30px;
+    font-family: monospace;
+}
