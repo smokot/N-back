@@ -15,7 +15,7 @@ data['audios']      = [
     'word_1.mp3','word_2.mp3','word_3.mp3','word_4.mp3','word_5.mp3','word_6.mp3','word_7.mp3','word_8.mp3'
 ];
 data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
-data['images']      = ['chess_1.png','chess_2.png','chess_3.png','figure_1.png','figure_2.png','figure_3.png'];
+data['images']      = ['chess_1.png','chess_2.png','chess_3.png','figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png','image_1.png','image_2.png','image_3.png','image_4.png','image_5.png','image_6.png','image_7.png'];
 data['intervalObj'] = null;
 data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'counter':0};
 data['counter']     = 0;
@@ -205,7 +205,8 @@ function getNextElement(type){
     if(data['savedElements']['counter'] > settings['N']){
         
         if(data['requiredShow'][type][data['savedElements']['counter']] > 0){
-            nextElement = data['savedElements'][type][0] ?? nextElement;
+            let v_back_index = (settings['N'] - data['v-back'][type]);
+            nextElement = data['savedElements'][type][v_back_index] ?? nextElement;
         }
     }
 
@@ -230,6 +231,8 @@ function addNextElements(){
                 nextStimul = nextPosition = getNextElement('positions');
             }*/
         }
+
+        
 
         data['savedElements'][className].push(nextStimul);
 
@@ -391,7 +394,7 @@ function start(){
     showElement('.block.game');
 
     for(buttonType in data['buttons']){
-        data['requiredShow'][buttonType] = generateRequiredShows(6, settings['showQuantity']['static']);
+        data['requiredShow'][buttonType] = generateRequiredShows(parseInt(settings['showQuantity']['static'] / 3), settings['showQuantity']['static']);
     }
 
         // data['intervalObj'] = setInterval(() => {
