@@ -10,13 +10,13 @@ function showElement(element) {
     select(element).style['display'] = 'inline-block';
 }
 
-
 select('.block.result .go_home').addEventListener('mousedown', function(){
     resetResults();
-    
-    showElement('.block.game');
-    showElement('.play');
-    showElement('.button.settings');
+
+    ['.block.game','.play','.button.settings'].forEach((element)=>{
+        showElement(element);
+    });
+
     hideElement('.block.result');
 });
 

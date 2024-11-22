@@ -1,13 +1,14 @@
 
-//1)Если не будет показа стимулов, статистика будет хериться (будет % = 0)
-
-//2)Иногда бывает что при показе одного, и нажатии в этом время пробела,
-// следующий может перекрыть предыдущий , заложил data['lockedForPick'] на будущее
-
+//1)Если не будет показа стимулов, статистика будет хериться (будет % = 0), нужна "приманка"
 
 let data = {};
 data['positions']   = select('.block .tile', 'all');
-data['buttons']     = {'positions':select('.button.position'), 'audios':select('.button.audio'), 'colors':select('.button.color'), 'images':select('.button.image')};
+data['buttons']     = {
+    'positions':select('.block.game .button.position'), 
+    'audios':select('.block.game .button.audio'), 
+    'colors':select('.block.game .button.color'), 
+    'images':select('.block.game .button.image')
+};
 data['audios']      = [
     'a.mp3','b.mp3','c.mp3','d.mp3','f.mp3','g.mp3','h.mp3','j.mp3','k.mp3','l.mp3','m.mp3','n.mp3',
     'б.mp3','в.mp3','г.mp3','д.mp3','к.mp3','л.mp3','м.mp3','н.mp3','п.mp3','с.mp3','э.mp3',
@@ -20,7 +21,9 @@ data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,
 data['counter']     = 0;
 data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0}};
 data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0};
-data['tilesLocked'] = [];
+data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[]};
+data['is_tile_locked'] = false;
+
 
 let settings = {
     'N'                      : 1,
@@ -75,6 +78,23 @@ function eventColor(element, color){
     }, settings['ShowTimeInterval']);
 }
 
+
+function generateRequiredShows(quantity, size){
+    let array = Array(size).fill(0); 
+
+    if(size >= quantity){
+        while(quantity){
+            let position = random_int(0, array.length - 1);
+            if(array[position] == 0){
+                array[position] = 1;
+                quantity--;
+            }
+        }
+    }
+
+    return array;
+}
+
 function eventImage(element, image){
     element.style['background-image']      = 'url(pictures/objects/'+image+')';
     element.style['background-size']       = '70%';
@@ -105,18 +125,26 @@ function compareLast(type, isAfk){
 
 
 function stimulReady(type){
-
     if(data['savedElements']['counter'] >= settings['N'] + 1){
         if(type != 'afk' && !data['buttons'][type]['disabled']){
             data['buttons'][type]['disabled'] = true;
+            
             changeColor(data['buttons'][type], settings['buttonColor']);
             compareLast(type, false);
         }else{
-            for(buttonType in data['buttons']){
+
+            select('.Stimules .button.choosed','all').forEach((item)=>{
+                let stimulName = item.classList[1] + 's';
+
+                if(data['buttons'][stimulName]['disabled'] == false){
+                    compareLast(stimulName, true);
+                }
+            });
+            /*for(buttonType in data['buttons']){
                 if(data['buttons'][buttonType]['disabled'] == false){
                     compareLast(buttonType, true);
                 }
-            }
+            }*/
         }
     }
 }
@@ -150,10 +178,9 @@ function handleKeyDown(event){
         'i': 'images',
     };
 
-    if(event.code == "Space" && 
+    if(event.code == "Space" && data['is_tile_locked'] == false &&
         select('.block.result').style['display'] == 'none')
     {
-        console.log(data['savedElements']);
         stimulReady('afk');
         step();
     }
@@ -162,7 +189,7 @@ function handleKeyDown(event){
         start();
     }
     
-    if(stimul = arKeyStimules[event.key.toLowerCase()]){
+    if(stimul = arKeyStimules[event.key.toLowerCase()] && data['is_tile_locked'] == false){
         stimulReady(stimul);
     }
 }
@@ -176,8 +203,9 @@ function getNextElement(type){
     let nextElement  = data[type][random_int(0, data[type].length - 1)];
 
     if(data['savedElements']['counter'] > settings['N']){
-        if(random_int(-1, 1) > 0){
-            nextElement = data['savedElements'][type][0];
+        
+        if(data['requiredShow'][type][data['savedElements']['counter']] > 0){
+            nextElement = data['savedElements'][type][0] ?? nextElement;
         }
     }
 
@@ -188,15 +216,50 @@ function addNextElements(){
     let lengthPositions = data['savedElements']['positions'].length - 1;
     let lastPosition    = data['savedElements']['positions'][lengthPositions];
 
-    let nextAudio = getNextElement('audios');
     let nextPosition = getNextElement('positions');
+
+    select('.Stimules .button.choosed','all').forEach((item)=>{
+        let className  = item.classList[1] +'s';
+        let nextStimul = getNextElement(className);
+
+        if(className == 'positions'){
+            nextStimul = nextPosition;
+
+            //ПРИ ОБЯЗАТЕЛЬНЫХ ПОКАЗАХ ПАДАЕТ В БЕСКОНЕЧНЫЙ ЦИКЛ
+            /*while(data['tilesLocked'].includes(nextPosition) && data['tilesLocked'].length < 9){
+                nextStimul = nextPosition = getNextElement('positions');
+            }*/
+        }
+
+        data['savedElements'][className].push(nextStimul);
+
+
+        if(className == 'positions'){
+            eventPosition(nextPosition);
+        }
+
+        if(className == 'colors'){
+            eventColor(nextPosition, nextStimul);
+        }
+
+        if(className == 'images'){
+            eventImage(nextPosition, nextStimul)
+        }
+
+        if(className == 'audios'){
+            eventAudio(nextStimul);
+        }
+    });
+
+    data['savedElements']['counter']++;
+
+    data['is_tile_locked'] = true;
+
+    
+    /*let nextAudio = getNextElement('audios');
     let nextColor = getNextElement('colors');
     let nextImage = getNextElement('images');
-
-    while(data['tilesLocked'].includes(nextPosition)){
-        nextPosition = getNextElement('positions');
-    }
-
+    
     data['savedElements']['positions'].push(nextPosition);
     data['savedElements']['audios'].push(nextAudio);
     data['savedElements']['colors'].push(nextColor);
@@ -206,13 +269,12 @@ function addNextElements(){
     eventPosition(nextPosition);
     eventColor(nextPosition, nextColor);
     eventImage(nextPosition, nextImage)
-    eventAudio(nextAudio);
+    eventAudio(nextAudio);*/
 
-    data['tilesLocked'].push(nextPosition);
+    //data['tilesLocked'].push(nextPosition);
 
     setTimeout(()=>{
-        data['tilesLocked'] = data['tilesLocked'].filter(val => val != nextPosition);
-
+        data['is_tile_locked'] = false;
     }, settings['ShowTimeInterval']);
 
     if(data['savedElements']['counter'] > settings['N']){
@@ -283,12 +345,16 @@ function isEnd(){
             
             setScore(item, scorePercent);
         });
+
+        return true;
+    }else{
+        return false;
     }
+
 }
 
 function step(){
     if(data['savedElements']['counter'] > settings['N']){
-
         // FROM [a,b,c,d] TO [b,c,d]
         Object.keys(data['buttons']).forEach((stimulType) => {
             data['savedElements'][stimulType] = data['savedElements'][stimulType].slice(1, settings['N'] + 1); 
@@ -299,9 +365,11 @@ function step(){
         changeColor(data['buttons'][buttonType], settings['defaultButtonColor']);
         data['buttons'][buttonType]['disabled'] = false;
     }
+
+    if(!isEnd()){
+        addNextElements();
+    }
     
-    addNextElements();
-    isEnd();
     settings['showQuantity']['active']--;
 }
 
@@ -313,12 +381,18 @@ function start(){
         item.style['display'] = 'block';
     });
 
-        select('.level').innerText = "N = "+settings['N'];
-        eventButtons();
-        select('.play').style['display'] = 'none';
-        select('.button.settings').style['display'] = 'none';
-        select('.block.result').style['display'] = 'none';
-        select('.block.game').style['display'] = 'block';
+    select('.level').innerText = "N = "+settings['N'];
+    eventButtons();
+
+    hideElement('.play'); 
+    hideElement('.button.settings'); 
+    hideElement('.block.result'); 
+
+    showElement('.block.game');
+
+    for(buttonType in data['buttons']){
+        data['requiredShow'][buttonType] = generateRequiredShows(6, settings['showQuantity']['static']);
+    }
 
         // data['intervalObj'] = setInterval(() => {
         //     //step();
