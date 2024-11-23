@@ -15,7 +15,7 @@ data['audios']      = [
     'word_1.mp3','word_2.mp3','word_3.mp3','word_4.mp3','word_5.mp3','word_6.mp3','word_7.mp3','word_8.mp3'
 ];
 data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
-data['images']      = ['chess_1.png','chess_2.png','chess_3.png','figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png','image_1.png','image_2.png','image_3.png','image_4.png','image_5.png','image_6.png','image_7.png'];
+data['images']      = ['chess_1.png','chess_2.png','chess_3.png','chess_4.png','chess_5.png','figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png','man_1.png','man_2.png','man_3.png','man_4.png','man_5.png','man_6.png','smile_1.png','smile_2.png','smile_3.png','smile_4.png','smile_5.png'];
 data['intervalObj'] = null;
 data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'counter':0};
 data['counter']     = 0;
