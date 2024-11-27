@@ -83,6 +83,19 @@
             }
         }
     }
+
+    .last-games{
+        margin-left: 940px;
+       
+        font-family: monospace;
+        .score{
+            font-size: 25px;
+
+            &.avg{
+                font-size: 40px;
+            }
+        }
+    }
 }
 
 .level{
@@ -103,7 +116,7 @@
 }
 
 .button {
-    width: 230px;
+    width: 180px;
     height: 80px;
     background-color: #9faab5a1;
     border-radius: 10px;
@@ -156,7 +169,7 @@
 
     position: absolute;
     top: 650px;
-    left: 150px;
+    left: 100px;
 }
 .color {
     background-image: url('pictures/stimulButtons/color.png');
@@ -167,7 +180,7 @@
 
     position: absolute;
     top: 650px;
-    left: 400px;
+    left: 300px;
 }
 
 .image {
@@ -179,8 +192,20 @@
 
     position: absolute;
     top: 650px;
-    left: 650px;
+    left: 500px;
 }
+.category {
+    background-image: url('pictures/stimulButtons/category.png');
+    background-size: 25%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    position: absolute;
+    top: 650px;
+    left: 700px;
+}
+
 .play{
     width: 110px;
     margin-top: 20px;
@@ -203,16 +228,16 @@ img {
     user-select: none;
 }
 .result .percent-score{
-    top: 500px;
+    top: 550px;
     position: absolute;
     font-family: monospace;
-    font-size: 100px;
+    font-size: 60px;
    /* display: none; */
 
    &.final-score{
-        font-size: 150px;
-        top: 200px;
-        left: 270px;
+        font-size: 120px;
+        top: 300px;
+        left: 310px;
    }
 }
 
@@ -249,4 +274,5 @@ img {
 .yellow{
     color: #97e83a;
 }
+
 

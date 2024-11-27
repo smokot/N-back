@@ -46,6 +46,9 @@
 
                 <div class="button image choosed" style="cursor: pointer; left: 215px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
                 </div>
+
+                <div class="button category choosed" style="cursor: pointer; left: 284px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
+                </div>
             </div>
             
         </div>
@@ -73,31 +76,44 @@
     
 
             <div class="position-stimul">
-                <div class="v-label positions" style="display: none;">0</div>
+                <div class="v-label positions" style="left: -26px; display: none;">0</div>
                 <div class="button position" style="cursor: pointer;" onmousedown="stimulReady('positions')">
                     <image class="label" src="pictures/keys/key_p.png"></image>
                 </div>
             </div>
     
             <div class="audio-stimul">
-                <div class="v-label audios" style="left: 250px; display: none;">0</div>
+                <div class="v-label audios" style="left: 175px; display: none;">0</div>
                 <div class="button audio" style="cursor: pointer;" onmousedown="stimulReady('audios')">
                     <image class="label" src="pictures/keys/key_s.png"></image>
                 </div>
             </div>
     
             <div class="color-stimul">
-                <div class="v-label colors" style="left: 500px; display: none;">0</div>
+                <div class="v-label colors" style="left: 370px; display: none;">0</div>
                 <div class="button color" style="cursor: pointer;" onmousedown="stimulReady('colors')">
                     <image  class="label" src="pictures/keys/key_c.png"></image>
                 </div>
             </div>
             
             <div class="image-stimul">
-                <div class="v-label images" style="left: 750px; display: none;">0</div>
+                <div class="v-label images" style="left: 574px; display: none;">0</div>
                 <div class="button image" style="cursor: pointer;" onmousedown="stimulReady('images')">
                     <image class="label" src="pictures/keys/key_i.png"></image>
                 </div>
+            </div>
+
+            <div class="category-stimul">
+                <div class="v-label categorys" style="left: 775px; display: none;">0</div>
+                <div class="button category" style="cursor: pointer;" onmousedown="stimulReady('categorys')">
+                    <image class="label" src="pictures/keys/key_o.png"></image>
+                </div>
+            </div>
+
+            <div class="last-games">
+                <!-- <div class="score">25</div>
+                
+                <div class="avg score">100</div> -->
             </div>
             
         </div>
@@ -107,15 +123,17 @@
 
             <div class="percent-score final-score">10</div>
 
-            <div class="percent-score positions" style="left: -70px;">0</div>
-            <div class="percent-score audios" style="left: 180px;">0</div>
-            <div class="percent-score colors" style="left: 430px;">0</div>
-            <div class="percent-score images" style="left: 680px;">0</div>
+            <div class="percent-score positions" style="left: -60px;">10</div>
+            <div class="percent-score audios" style="left: 140px;">10</div>
+            <div class="percent-score colors" style="left: 340px;">10</div>
+            <div class="percent-score images" style="left: 535px;">10</div>
+            <div class="percent-score categorys" style="left: 730px;">10</div>
     
             <div class="button position"></div>
             <div class="button audio"></div>
             <div class="button color"></div>
             <div class="button image"></div>
+            <div class="button category"></div>
         </div>
 
     </div>
@@ -123,9 +141,11 @@
     <script src="script-game.js"></script>
     <script src="script-settings.js"></script>
     <script src="script-result.js"></script>
+    <script src="script-storage.js"></script>
 
     <script>
-        select('.Show-quantity .num-value').innerText = calculateShowQuantity()
+        drawLastGamesRows();
 
+        select('.Show-quantity .num-value').innerText = calculateShowQuantity();
     </script>
 </html>

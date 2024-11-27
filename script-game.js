@@ -7,7 +7,8 @@ data['buttons']     = {
     'positions':select('.block.game .button.position'), 
     'audios':select('.block.game .button.audio'), 
     'colors':select('.block.game .button.color'), 
-    'images':select('.block.game .button.image')
+    'images':select('.block.game .button.image'),
+    'categorys':select('.block.game .button.category')
 };
 data['audios']      = [
     'a.mp3','b.mp3','c.mp3','d.mp3','f.mp3','g.mp3','h.mp3','j.mp3','k.mp3','l.mp3','m.mp3','n.mp3',
@@ -16,12 +17,14 @@ data['audios']      = [
 ];
 data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
 data['images']      = ['chess_1.png','chess_2.png','chess_3.png','chess_4.png','chess_5.png','figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png','man_1.png','man_2.png','man_3.png','man_4.png','man_5.png','man_6.png','smile_1.png','smile_2.png','smile_3.png','smile_4.png','smile_5.png'];
+data['categorys']   = []; // НОВЫЙ СТИМУЛ - КАТЕГОРИИ
+
 data['intervalObj'] = null;
-data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'counter':0};
+data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[], 'categorys':[] ,'counter':0};
 data['counter']     = 0;
-data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0}};
-data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0};
-data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[]};
+data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0,"categorys":0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0,"categorys":0}};
+data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0,"categorys":0};
+data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[], "categorys":[]};
 data['is_tile_locked'] = false;
 
 
@@ -153,7 +156,7 @@ function resetResults(){
     data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'counter':0};
     data['counter']     = 0;
     data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0}};
-    data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0};
+    data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0, 'categorys':0};
     settings['showQuantity']['active'] = settings['showQuantity']['static'];
   
     for(buttonType in data['buttons']){
@@ -199,14 +202,56 @@ function eventButtons(){
     select('body').addEventListener('keydown',handleKeyDown);
 }
 
+function getRandomImageByCategory(category){
+
+    let arCategoryImages = [];
+
+    data['images'].forEach((item) => {
+        if(category == getImageCategory(item)){
+            arCategoryImages.push(item);
+        }
+    });
+
+    if(arCategoryImages.length){
+        return arCategoryImages[random_int(0, arCategoryImages.length - 1)];
+    }
+}
+
+function getImageCategory(str){
+    let strToReplace = '';
+
+    if(result = str.match(/_[0-9]+.png/)){
+        strToReplace = result[0];
+
+        if(strToReplace){
+            str = str.replace(strToReplace, '');
+        }
+    }
+
+    return str;
+}
+
+function getLastElement(type){
+    return data['savedElements'][type][data['savedElements'][type].length - 1];
+}
+
 function getNextElement(type){
     let nextElement  = data[type][random_int(0, data[type].length - 1)];
 
     if(data['savedElements']['counter'] > settings['N']){
-        
-        if(data['requiredShow'][type][data['savedElements']['counter']] > 0){
-            let v_back_index = (settings['N'] - data['v-back'][type]);
-            nextElement = data['savedElements'][type][v_back_index] ?? nextElement;
+        let v_back_index   = (settings['N'] - data['v-back'][type]);
+        let isRequiredShow = data['requiredShow'][type][data['savedElements']['counter']] > 0;
+
+        if(isRequiredShow){
+            if(type == 'categorys'){
+                if(data['requiredShow']['images'][data['savedElements']['counter']] < 1){
+                    //let lastCategory = getLastElement(data['savedElements'][type]);
+                    let vBackCategory = data['savedElements'][type][v_back_index]
+                    nextElement = getRandomImageByCategory(vBackCategory);
+                }
+            }else{
+                nextElement = data['savedElements'][type][v_back_index] ?? nextElement;
+            }
         }
     }
 
@@ -220,22 +265,19 @@ function addNextElements(){
     let nextPosition = getNextElement('positions');
 
     select('.Stimules .button.choosed','all').forEach((item)=>{
-        let className  = item.classList[1] +'s';
+        let className  = item.classList[1] + 's';
+
         let nextStimul = getNextElement(className);
 
         if(className == 'positions'){
             nextStimul = nextPosition;
-
-            //ПРИ ОБЯЗАТЕЛЬНЫХ ПОКАЗАХ ПАДАЕТ В БЕСКОНЕЧНЫЙ ЦИКЛ
-            /*while(data['tilesLocked'].includes(nextPosition) && data['tilesLocked'].length < 9){
-                nextStimul = nextPosition = getNextElement('positions');
-            }*/
         }
 
-        
+        if(className == 'categorys'){
+            nextStimul = getImageCategory(getLastElement('images'));
+        }
 
         data['savedElements'][className].push(nextStimul);
-
 
         if(className == 'positions'){
             eventPosition(nextPosition);
@@ -258,34 +300,17 @@ function addNextElements(){
 
     data['is_tile_locked'] = true;
 
-    
-    /*let nextAudio = getNextElement('audios');
-    let nextColor = getNextElement('colors');
-    let nextImage = getNextElement('images');
-    
-    data['savedElements']['positions'].push(nextPosition);
-    data['savedElements']['audios'].push(nextAudio);
-    data['savedElements']['colors'].push(nextColor);
-    data['savedElements']['images'].push(nextImage);
-    data['savedElements']['counter']++;
-    
-    eventPosition(nextPosition);
-    eventColor(nextPosition, nextColor);
-    eventImage(nextPosition, nextImage)
-    eventAudio(nextAudio);*/
-
-    //data['tilesLocked'].push(nextPosition);
-
-    setTimeout(()=>{
-        data['is_tile_locked'] = false;
-    }, settings['ShowTimeInterval']);
-
     if(data['savedElements']['counter'] > settings['N']){
         for(buttonType in data['buttons']){
             data['v-back'][buttonType] = random_int(1, settings['N']);
             select('.v-label.'+buttonType).innerText = data['v-back'][buttonType];
         }
     }
+
+    setTimeout(()=>{
+        data['is_tile_locked'] = false;
+    }, settings['ShowTimeInterval']);
+
 }
 
 function array_sum(array){
@@ -319,8 +344,39 @@ function setScore(element, score){
     }
 
     element.innerText = score + '%';
+}
 
-    //Нужно затирать старые цвета(классы)
+function collectLastGames(value){
+    let lastGames = getData('last-games');
+    if(lastGames.length){
+        lastGames = lastGames.split(',');
+    }
+    lastGames.push(value);
+
+    if(lastGames.length == 21){
+        lastGames = lastGames.slice(1, 20);
+    }
+    setData('last-games', lastGames);
+}
+
+function addLastGameRow(value, className){
+    let lastGamesDiv        = select('.last-games');
+    lastGamesDiv.innerHTML += '<div class="'+className+'">'+parseInt(value)+'</div>\n';
+}
+
+function drawLastGamesRows(){
+    let lastGames = getData('last-games');
+    if(lastGames.length){
+        lastGames = lastGames.split(',');
+        let scoreSum = 0;
+        lastGames.forEach((item)=>{
+            scoreSum += parseInt(item);
+            addLastGameRow(item,'score');
+        });
+
+        scoreSum = scoreSum / lastGames.length;
+        addLastGameRow(scoreSum,'avg score');
+    }
 }
 
 function isEnd(){
@@ -348,6 +404,8 @@ function isEnd(){
             
             setScore(item, scorePercent);
         });
+
+        collectLastGames(data['result']['percent']);
 
         return true;
     }else{
@@ -394,7 +452,7 @@ function start(){
     showElement('.block.game');
 
     for(buttonType in data['buttons']){
-        data['requiredShow'][buttonType] = generateRequiredShows(parseInt(settings['showQuantity']['static'] / 3), settings['showQuantity']['static']);
+        data['requiredShow'][buttonType] = generateRequiredShows(parseInt(settings['showQuantity']['static'] / 2), settings['showQuantity']['static']);
     }
 
         // data['intervalObj'] = setInterval(() => {
