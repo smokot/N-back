@@ -22,7 +22,8 @@
 # Небольшая инструкция
 ![image](https://github.com/user-attachments/assets/0891d3d6-17e0-4307-8b45-0ec5f20e90a8)
 ![image](https://github.com/user-attachments/assets/99fa6aed-3993-4b5c-8c27-4d370c42e33b)
-![image](https://github.com/user-attachments/assets/805ea43f-b3e3-4f91-a1ff-e67cc3e9c4e1)
+![image](https://github.com/user-attachments/assets/85fec981-6fc1-4134-bc04-6625e5bbd520)
+
 
 
 
