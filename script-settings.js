@@ -7,6 +7,10 @@ select('.block.settings').addEventListener('mouseleave', function(){
     hideElement('.block.settings');
 });
 
+select('.block.settings .close').addEventListener('click', function(){
+    hideElement('.block.settings');
+});
+
 function showElement(element) {
     select(element).style['display'] = 'block';
 }
