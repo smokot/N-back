@@ -212,9 +212,12 @@ function eventButtons(){
         select('body').removeEventListener('keydown',handleKeyDown);
         select('body').addEventListener('keydown',handleKeyDown);
     
-        select('.block.game').removeEventListener('click',handleKeyDown);
-        select('.block.game').addEventListener('click',handleKeyDown);
-    },1000);
+        select('.block.game .tile','all').forEach((element) => {
+            element.removeEventListener('click', handleKeyDown);
+            element.addEventListener('click', handleKeyDown);
+        });
+
+    }, 500);
    
 }
 
@@ -427,7 +430,7 @@ function isEnd(){
             setScore(item, scorePercent);
         });
 
-        collectLastGames(data['result']['percent']);
+        //collectLastGames(data['result']['percent']);
 
         return true;
     }else{
