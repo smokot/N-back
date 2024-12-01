@@ -1,8 +1,10 @@
 
 .block{
     position: absolute;
-    width: 50%;
-    height: 50%;
+    /* width: 50%;
+    height: 50%; */
+    width: 647px;
+    height: 545px;
     top: 10%;
     left: 20%;
     text-align: center;

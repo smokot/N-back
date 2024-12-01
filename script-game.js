@@ -158,10 +158,12 @@ function stimulReady(type){
 }
 
 function resetResults(){
-    data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'counter':0};
-    data['counter']     = 0;
-    data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0}};
-    data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0, 'image-categorys':0,'audio-categorys':0};
+    data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'image-categorys':[], 'audio-categorys':[],'counter':0};
+    data['counter']       = 0;
+    data['result']        = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0, 'image-categorys':0,'audio-categorys':0}, 
+                                        'incorrect':{'audios':0,'positions':0,'colors':0,'images':0, 'image-categorys':0,'audio-categorys':0}
+                            };
+    data['v-back']        = {'audios':0, 'positions':0, 'colors':0, 'images':0, 'image-categorys':0,'audio-categorys':0};
     settings['showQuantity']['active'] = settings['showQuantity']['static'];
   
     for(buttonType in data['buttons']){
@@ -179,14 +181,14 @@ function resetResults(){
 }
 
 function handleKeyDown(event){
-    let arKeyStimules = {
-        'p': 'positions',
-        's': 'audios',
-        'c': 'colors',
-        'i': 'images',
-    };
+    // let arKeyStimules = {
+    //     'p': 'positions',
+    //     's': 'audios',
+    //     'c': 'colors',
+    //     'i': 'images',
+    // };
 
-    if(event.code == "Space" && data['is_tile_locked'] == false &&
+    if((event.code == "Space" || event.type == 'click') && data['is_tile_locked'] == false &&
         select('.block.result').style['display'] == 'none')
     {
         stimulReady('afk');
@@ -197,14 +199,23 @@ function handleKeyDown(event){
         start();
     }
     
-    if(stimul = arKeyStimules[event.key.toLowerCase()] && data['is_tile_locked'] == false){
-        stimulReady(stimul);
-    }
+    // if(stimul = arKeyStimules[event.key.toLowerCase()] && data['is_tile_locked'] == false){
+    //     stimulReady(stimul);
+    // }
+    
+    
 }
 
 function eventButtons(){
-    select('body').removeEventListener('keydown',handleKeyDown);
-    select('body').addEventListener('keydown',handleKeyDown);
+
+    setTimeout(function(){
+        select('body').removeEventListener('keydown',handleKeyDown);
+        select('body').addEventListener('keydown',handleKeyDown);
+    
+        select('.block.game').removeEventListener('click',handleKeyDown);
+        select('.block.game').addEventListener('click',handleKeyDown);
+    },1000);
+   
 }
 
 function getRandomElementByCategory(type, category){
@@ -447,6 +458,10 @@ function step(){
 
 
 function start(){
+
+
+
+
     //if(data['intervalObj'] == null){
 
     select('.v-label','all').forEach((item)=>{
