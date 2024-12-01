@@ -20,7 +20,8 @@
 - Добавлен расчёт кол-ва показов
 
 # Небольшая инструкция
-![image](https://github.com/user-attachments/assets/5f668f55-ca59-4512-af66-c697ded08e75)
+![image](https://github.com/user-attachments/assets/0891d3d6-17e0-4307-8b45-0ec5f20e90a8)
+
 
 
 
