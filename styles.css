@@ -35,7 +35,6 @@
         
 
         .num-value{
-         
             border: none;
             outline: unset;
             width: 47px;
@@ -81,6 +80,12 @@
                 cursor: pointer;
                 background-image: url(pictures/interface/settings/arrow-right-hover.png);
             }
+        }
+
+        .close{
+            width: 150px;
+            height: 150px;
+            margin-top: 60px;
         }
     }
 
