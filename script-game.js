@@ -8,23 +8,28 @@ data['buttons']     = {
     'audios':select('.block.game .button.audio'), 
     'colors':select('.block.game .button.color'), 
     'images':select('.block.game .button.image'),
-    'categorys':select('.block.game .button.category')
+    'image-categorys':select('.block.game .button.image-category'),
+    'audio-categorys':select('.block.game .button.audio-category'),
 };
 data['audios']      = [
-    'a.mp3','b.mp3','c.mp3','d.mp3','f.mp3','g.mp3','h.mp3','j.mp3','k.mp3','l.mp3','m.mp3','n.mp3',
-    'б.mp3','в.mp3','г.mp3','д.mp3','к.mp3','л.mp3','м.mp3','н.mp3','п.mp3','с.mp3','э.mp3',
+    'letter_1.mp3', 'letter_2.mp3','letter_3.mp3','letter_4.mp3','letter_5.mp3','letter_6.mp3','letter_7.mp3','letter_8.mp3',
     'word_1.mp3','word_2.mp3','word_3.mp3','word_4.mp3','word_5.mp3','word_6.mp3','word_7.mp3','word_8.mp3'
 ];
 data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
-data['images']      = ['chess_1.png','chess_2.png','chess_3.png','chess_4.png','chess_5.png','figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png','man_1.png','man_2.png','man_3.png','man_4.png','man_5.png','man_6.png','smile_1.png','smile_2.png','smile_3.png','smile_4.png','smile_5.png'];
-data['categorys']   = []; // НОВЫЙ СТИМУЛ - КАТЕГОРИИ
+data['images']      = ['chess_1.png','chess_2.png','chess_3.png','chess_4.png','chess_5.png',
+                        'figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png',
+                        'man_1.png','man_2.png','man_3.png','man_4.png','man_5.png','man_6.png',
+                        'smile_1.png','smile_2.png','smile_3.png','smile_4.png','smile_5.png',
+                        'eiroglif_1.png','eiroglif_2.png','eiroglif_3.png','eiroglif_4.png','eiroglif_5.png'];
+data['image-categorys']   = []; 
+data['audio-categorys']   = []; 
 
 data['intervalObj'] = null;
-data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[], 'categorys':[] ,'counter':0};
+data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[], 'image-categorys':[], 'audio-categorys':[], 'counter':0};
 data['counter']     = 0;
-data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0,"categorys":0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0,"categorys":0}};
-data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0,"categorys":0};
-data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[], "categorys":[]};
+data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0}};
+data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0,"image-categorys":0, 'audio-categorys':0};
+data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[], "image-categorys":[], 'audio-categorys':[]};
 data['is_tile_locked'] = false;
 
 
@@ -69,7 +74,7 @@ function eventPosition(element) {
 }
 
 function eventAudio(audioElem) {
-    let audio = new Audio('letters/'+audioElem);
+    let audio = new Audio('audios/'+audioElem);
     audio.volume = settings['audioVolume'];
     audio.play();
 }
@@ -156,7 +161,7 @@ function resetResults(){
     data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'counter':0};
     data['counter']     = 0;
     data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0}};
-    data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0, 'categorys':0};
+    data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0, 'image-categorys':0,'audio-categorys':0};
     settings['showQuantity']['active'] = settings['showQuantity']['static'];
   
     for(buttonType in data['buttons']){
@@ -202,25 +207,24 @@ function eventButtons(){
     select('body').addEventListener('keydown',handleKeyDown);
 }
 
-function getRandomImageByCategory(category){
+function getRandomElementByCategory(type, category){
+    let arCategoryElements = [];
 
-    let arCategoryImages = [];
-
-    data['images'].forEach((item) => {
-        if(category == getImageCategory(item)){
-            arCategoryImages.push(item);
+    data[type].forEach((item) => {
+        if(category == getCategory(item)){
+            arCategoryElements.push(item);
         }
     });
 
-    if(arCategoryImages.length){
-        return arCategoryImages[random_int(0, arCategoryImages.length - 1)];
+    if(arCategoryElements.length){
+        return arCategoryElements[random_int(0, arCategoryElements.length - 1)];
     }
 }
 
-function getImageCategory(str){
+function getCategory(str){
     let strToReplace = '';
 
-    if(result = str.match(/_[0-9]+.png/)){
+    if(result = str.match(/_[0-9]+.[png|mp3]+/)){
         strToReplace = result[0];
 
         if(strToReplace){
@@ -243,11 +247,12 @@ function getNextElement(type){
         let isRequiredShow = data['requiredShow'][type][data['savedElements']['counter']] > 0;
 
         if(isRequiredShow){
-            if(type == 'categorys'){
-                if(data['requiredShow']['images'][data['savedElements']['counter']] < 1){
-                    //let lastCategory = getLastElement(data['savedElements'][type]);
+            let arTypes = {'image-categorys':'images', 'audio-categorys':'audios'};
+
+            if(categoryType = arTypes[type]){
+                if(data['requiredShow'][categoryType][data['savedElements']['counter']] < 1){
                     let vBackCategory = data['savedElements'][type][v_back_index]
-                    nextElement = getRandomImageByCategory(vBackCategory);
+                    nextElement = getRandomElementByCategory(categoryType, vBackCategory);
                 }
             }else{
                 nextElement = data['savedElements'][type][v_back_index] ?? nextElement;
@@ -264,6 +269,8 @@ function addNextElements(){
 
     let nextPosition = getNextElement('positions');
 
+    let arTypes = {'image-categorys':'images', 'audio-categorys':'audios'};
+
     select('.Stimules .button.choosed','all').forEach((item)=>{
         let className  = item.classList[1] + 's';
 
@@ -273,8 +280,8 @@ function addNextElements(){
             nextStimul = nextPosition;
         }
 
-        if(className == 'categorys'){
-            nextStimul = getImageCategory(getLastElement('images'));
+        if(categoryType = arTypes[className]){
+            nextStimul = getCategory(getLastElement(categoryType));
         }
 
         data['savedElements'][className].push(nextStimul);
@@ -322,6 +329,21 @@ function array_sum(array){
     return sum;
 }
 
+function getColorByScore(score){
+    if(score < 40){
+        return 'red';
+    }
+
+    if(score >= 40 && score <= 80){
+        return 'gray';
+    }
+
+    if(score >= 80){
+        return 'yellow';
+    }
+    return '';
+}
+
 
 function setScore(element, score){
     if(isNaN(score)){
@@ -330,19 +352,7 @@ function setScore(element, score){
 	
     score = parseInt(score);
 
-
-    if(score < 40){
-        element.classList.add('red');
-    }
-
-    if(score >= 40 && score <= 80){
-        element.classList.add('gray');
-    }
-
-    if(score >= 80){
-        element.classList.add('yellow');
-    }
-
+    element.classList.add(getColorByScore(score));
     element.innerText = score + '%';
 }
 
@@ -361,7 +371,8 @@ function collectLastGames(value){
 
 function addLastGameRow(value, className){
     let lastGamesDiv        = select('.last-games');
-    lastGamesDiv.innerHTML += '<div class="'+className+'">'+parseInt(value)+'</div>\n';
+    value                   = parseInt(value);
+    lastGamesDiv.innerHTML += '<div class="'+className+' '+getColorByScore(value)+'">'+parseInt(value)+'%</div>\n';
 }
 
 function drawLastGamesRows(){

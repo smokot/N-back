@@ -13,7 +13,7 @@
     &.settings{
         user-select: none;
         top: 10px;
-        width: 400px;
+        width: 410px;
         height: 870px;
         min-width: unset;
         border-radius: 10px;
@@ -85,7 +85,7 @@
     }
 
     .last-games{
-        margin-left: 940px;
+        margin-left: 930px;
        
         font-family: monospace;
         .score{
@@ -116,7 +116,7 @@
 }
 
 .button {
-    width: 180px;
+    width: 130px;
     height: 80px;
     background-color: #9faab5a1;
     border-radius: 10px;
@@ -151,59 +151,70 @@
 
 .position {
     background-image: url('pictures/stimulButtons/position.png');
-    background-size: 30%;
+    background-size: 50%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
 
     position: absolute;
-    top: 650px;
-    left: -100px;
+    top: 585px;
+    left: 150px;
 }
 .audio {
     background-image: url('pictures/stimulButtons/sound.png');
-    background-size: 25%;
+    background-size: 55%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
 
     position: absolute;
-    top: 650px;
-    left: 100px;
+    top: 585px;
+    left: 300px;
 }
 .color {
     background-image: url('pictures/stimulButtons/color.png');
-    background-size: 21%;
+    background-size: 51%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
 
     position: absolute;
-    top: 650px;
-    left: 300px;
+    top: 585px;
+    left: 450px;
 }
 
 .image {
     background-image: url('pictures/stimulButtons/image.png');
-    background-size: 25%;
+    background-size: 55%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
 
     position: absolute;
-    top: 650px;
-    left: 500px;
+    top: 720px;
+    left: 150px;
 }
-.category {
-    background-image: url('pictures/stimulButtons/category.png');
-    background-size: 25%;
+.image-category {
+    background-image: url('pictures/stimulButtons/image-category.png');
+    background-size: 55%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
 
     position: absolute;
-    top: 650px;
-    left: 700px;
+    top: 720px;
+    left: 300px;
+}
+.audio-category {
+    background-image: url('pictures/stimulButtons/audio-category.png');
+    background-size: 55%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    position: absolute;
+    top: 720px;
+    left: 450px;
 }
 
 .play{
@@ -237,7 +248,7 @@ img {
    &.final-score{
         font-size: 120px;
         top: 300px;
-        left: 310px;
+        left: 255px;
    }
 }
 
@@ -272,7 +283,16 @@ img {
     color: #a39696;
 }
 .yellow{
-    color: #97e83a;
+    color: #7abf2a;
 }
 
-
+/* @media (max-width: 1100px) and (max-height: 840px) {
+    .tile{
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background-color: yellow;
+        border-radius: 40px;
+        margin-left: 100px;
+    }
+} */

@@ -1,5 +1,5 @@
 
-select('.button.settings').addEventListener('mousedown', function(){
+select('.button.settings').addEventListener('click', function(){
     showElement('.block.settings');
 });
 
@@ -34,6 +34,7 @@ function changeLevel(type){
     let calculatedShowQuantity = calculateShowQuantity();
     setShowQuantity(calculatedShowQuantity);
     show_quantity_element.innerText = calculatedShowQuantity;
+    select('.level').innerText = "N = "+settings['N'];
 }
 
 function changeShowQuantity(type){
@@ -112,7 +113,29 @@ select('.Show-time .arrow_right').addEventListener('mousedown', function(){
 
 ///////////////////////////////////////////
 
+function showStimul(className){
+    showElement('.block.game .'+className+'-stimul');
+    showElement('.block.result .percent-score.'+className+'s');
+    showElement('.block.result .button.'+className);
+}
 
+function hideStimul(className){
+    hideElement('.block.game .'+className+'-stimul');
+    hideElement('.block.result .percent-score.'+className+'s');
+    hideElement('.block.result .button.'+className);
+}
+
+function arrayOfElementsHaveClass(arrayOfElements, className){
+    let haveClass = false;
+
+    arrayOfElements.forEach((element)=>{
+        if(element.classList.contains(className)){
+            haveClass = true;
+        }
+    });
+
+    return haveClass;
+}
 
 
 /**
@@ -127,13 +150,38 @@ select('.block.settings .Stimules .button','all').forEach((element) => {
         }
        
         if(element.classList.contains('choosed')){
-            showElement('.block.game .'+element.classList[1]+'-stimul');
-            showElement('.block.result .percent-score.'+element.classList[1]+'s');
-            showElement('.block.result .button.'+element.classList[1]);
+            showStimul(element.classList[1]);
+
+            if(element.classList[1] == 'image-category'){
+                if(!arrayOfElementsHaveClass(all_buttons_choosed, 'image')){
+                    showStimul('image');
+                    select('.block.settings .Stimules .button.image').classList.toggle('choosed');
+                }
+            }
+
+            if(element.classList[1] == 'audio-category'){
+                if(!arrayOfElementsHaveClass(all_buttons_choosed, 'audio')){
+                    showStimul('audio');
+                    select('.block.settings .Stimules .button.audio').classList.toggle('choosed');
+                }
+            }
+
         }else{
-            hideElement('.block.game .'+element.classList[1]+'-stimul');
-            hideElement('.block.result .percent-score.'+element.classList[1]+'s');
-            hideElement('.block.result .button.'+element.classList[1]);
+            hideStimul(element.classList[1]);
+
+            if(element.classList[1] == 'image'){
+                if(arrayOfElementsHaveClass(all_buttons_choosed, 'image-category')){
+                    hideStimul('image-category');
+                    select('.block.settings .Stimules .button.image-category').classList.toggle('choosed');
+                }
+            }
+
+            if(element.classList[1] == 'audio'){
+                if(arrayOfElementsHaveClass(all_buttons_choosed, 'audio-category')){
+                    hideStimul('audio-category');
+                    select('.block.settings .Stimules .button.audio-category').classList.toggle('choosed');
+                }
+            }
         }
     });
 });
