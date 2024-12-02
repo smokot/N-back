@@ -123,8 +123,9 @@
 }
 
 .button {
+    user-select: none;
     width: 130px;
-    height: 80px;
+    height: 75px;
     background-color: #9faab5a1;
     border-radius: 10px;
 
@@ -224,6 +225,23 @@
     left: 470px;
 }
 
+.repeat{
+    cursor: pointer;
+
+    background-image: url('pictures/interface/repeat.png');
+    background-size: 118%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    position: absolute;
+    top: -10px;
+    left: 194px;
+
+    width: 382px;
+    height: 380px;
+}
+
 .play{
     width: 110px;
     margin-top: 20px;
@@ -255,7 +273,7 @@ img {
    &.final-score{
         font-size: 120px;
         top: 390px;
-        left: 340px;
+        left: 333px;
    }
 }
 

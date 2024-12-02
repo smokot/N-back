@@ -194,10 +194,6 @@ function handleKeyDown(event){
         stimulReady('afk');
         step();
     }
-    else if(event.code == "Space" && select('.block.result').style['display'] != 'none'){
-        resetResults();
-        start();
-    }
     
     // if(stimul = arKeyStimules[event.key.toLowerCase()] && data['is_tile_locked'] == false){
     //     stimulReady(stimul);
@@ -348,7 +344,7 @@ function getColorByScore(score){
         return 'red';
     }
 
-    if(score >= 40 && score <= 80){
+    if(score >= 40 && score < 80){
         return 'gray';
     }
 
@@ -429,8 +425,25 @@ function isEnd(){
             
             setScore(item, scorePercent);
         });
+        
+        let intFinalPercent = isNaN(data['result']['percent']) ? 0 : parseInt(data['result']['percent']);
+        
+        if(intFinalPercent >= 80){
+            settings['N']++;
+        }
+
+        if(intFinalPercent < 40 && settings['N'] != 1){
+            settings['N']--;
+        }
+
+        let nLevel       = select('.block.result .repeat .level');
+        nLevel.innerText = "N = " + settings['N'];
+
+        nLevel.style['color'] = getColorByScore(intFinalPercent);
+
 
         //collectLastGames(data['result']['percent']);
+
 
         return true;
     }else{

@@ -20,3 +20,10 @@ select('.block.result .go_home').addEventListener('mousedown', function(){
     hideElement('.block.result');
 });
 
+
+
+select('.block.result .repeat').addEventListener('click', function(){
+    resetResults();
+    start();
+});
+
