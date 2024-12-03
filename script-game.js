@@ -18,7 +18,7 @@ data['audios']      = [
 data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
 data['images']      = ['chess_1.png','chess_2.png','chess_3.png','chess_4.png','chess_5.png',
                         'figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png',
-                        'man_1.png','man_2.png','man_3.png','man_4.png','man_5.png','man_6.png',
+                        'man_1.png','man_2.png','man_3.png','man_4.png','man_5.png',
                         'smile_1.png','smile_2.png','smile_3.png','smile_4.png','smile_5.png',
                         'eiroglif_1.png'];
 data['image-categorys']   = []; 
