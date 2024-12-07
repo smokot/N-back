@@ -321,3 +321,9 @@ img {
         margin-left: 100px;
     }
 } */
+
+@media (pointer:coarse) {
+    .image {
+        display: none;
+    }
+}
