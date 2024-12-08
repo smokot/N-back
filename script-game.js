@@ -473,7 +473,7 @@ function step(){
 
 
 function start(){
-window.navigator.vibrate(200);
+//window.navigator.vibrate(200);
 
     //if(data['intervalObj'] == null){
 
