@@ -1,5 +1,4 @@
 
-
 let data = {};
 data['positions']   = select('.block .tile', 'all');
 data['buttons']     = {
@@ -9,26 +8,21 @@ data['buttons']     = {
     'images':select('.block.game .button.image'),
     'image-categorys':select('.block.game .button.image-category'),
     'audio-categorys':select('.block.game .button.audio-category'),
+    'tile-borders':select('.block.game .button.tile-border'),
 };
-data['audios']      = [
-    'letter_1.mp3', 'letter_2.mp3','letter_3.mp3','letter_4.mp3','letter_5.mp3','letter_6.mp3','letter_7.mp3','letter_8.mp3',
-    'word_1.mp3','word_2.mp3','word_3.mp3','word_4.mp3','word_5.mp3','word_6.mp3','word_7.mp3','word_8.mp3'
-];
+data['audios']      = [];
 data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
-data['images']      = ['chess_1.png','chess_2.png','chess_3.png','chess_4.png','chess_5.png',
-                        'figure_1.png','figure_2.png','figure_3.png','figure_4.png','figure_5.png','figure_6.png',
-                        'man_1.png','man_2.png','man_3.png','man_4.png','man_5.png',
-                        'smile_1.png','smile_2.png','smile_3.png','smile_4.png','smile_5.png',
-                        'eiroglif_1.png'];
+data['images']      = [];
 data['image-categorys']   = []; 
 data['audio-categorys']   = []; 
+data['tile-borders']     = ["8px solid", "8px dotted", "8px dashed", "8px double"]; 
 
 data['intervalObj'] = null;
-data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[], 'image-categorys':[], 'audio-categorys':[], 'counter':0};
+data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[], 'image-categorys':[], 'audio-categorys':[], 'tile-borders':[], 'counter':0};
 data['counter']     = 0;
-data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0}};
-data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0,"image-categorys":0, 'audio-categorys':0};
-data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[], "image-categorys":[], 'audio-categorys':[]};
+data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0, "tile-borders":0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0,"tile-borders":0}};
+data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0,"image-categorys":0, 'audio-categorys':0,"tile-borders":0};
+data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[], "image-categorys":[], 'audio-categorys':[],"tile-borders":[]};
 data['is_tile_locked'] = false;
 
 
@@ -82,6 +76,13 @@ function eventColor(element, color){
     changeColor(element, color);
     setTimeout(() => { 
         changeColor(element,settings['defaultTileColor']);
+    }, settings['ShowTimeInterval']);
+}
+
+function eventBorder(element, borderStyle){
+    element.style['border'] = borderStyle;
+    setTimeout(() => { 
+        element.style['border'] = 'none';
     }, settings['ShowTimeInterval']);
 }
 
@@ -180,29 +181,15 @@ function resetResults(){
 }
 
 function handleKeyDown(event){
-    // let arKeyStimules = {
-    //     'p': 'positions',
-    //     's': 'audios',
-    //     'c': 'colors',
-    //     'i': 'images',
-    // };
-
     if((event.code == "Space" || event.type == 'click') && data['is_tile_locked'] == false &&
         select('.block.result').style['display'] == 'none')
     {
         stimulReady('afk');
         step();
     }
-    
-    // if(stimul = arKeyStimules[event.key.toLowerCase()] && data['is_tile_locked'] == false){
-    //     stimulReady(stimul);
-    // }
-    
-    
 }
 
 function eventButtons(){
-
     setTimeout(function(){
         select('body').removeEventListener('keydown',handleKeyDown);
         select('body').addEventListener('keydown',handleKeyDown);
@@ -213,7 +200,6 @@ function eventButtons(){
         });
 
     }, 500);
-   
 }
 
 function getRandomElementByCategory(type, category){
@@ -249,6 +235,7 @@ function getLastElement(type){
 }
 
 function getNextElement(type){
+
     let nextElement  = data[type][random_int(0, data[type].length - 1)];
 
     if(data['savedElements']['counter'] > settings['N']){
@@ -274,7 +261,7 @@ function getNextElement(type){
 
 function addNextElements(){
     let lengthPositions = data['savedElements']['positions'].length - 1;
-    let lastPosition    = data['savedElements']['positions'][lengthPositions];
+    //let lastPosition    = data['savedElements']['positions'][lengthPositions];
 
     let nextPosition = getNextElement('positions');
 
@@ -309,6 +296,10 @@ function addNextElements(){
 
         if(className == 'audios'){
             eventAudio(nextStimul);
+        }
+
+        if(className == 'tile-borders'){
+            eventBorder(nextPosition, nextStimul);
         }
     });
 
@@ -399,6 +390,15 @@ function drawLastGamesRows(){
     }
 }
 
+function loadStimuliData(strStimulName, strCategoryName, intMaxQuantity){
+    let arExctentions = {'audios' : '.mp3', "images":".png"};
+    let strExctention = arExctentions[strStimulName];
+    for(let intCounter = 1; intCounter <= intMaxQuantity; intCounter++){
+        data[strStimulName].push(strCategoryName + "_" + intCounter.toString() 
+                                        + strExctention);
+    }
+}
+
 function isEnd(){
     if(settings['showQuantity']['active'] == 0){
         let correct_sum = array_sum(Object.values(data['result']['correct']));
@@ -473,7 +473,18 @@ function step(){
 
 
 function start(){
-//window.navigator.vibrate(200);
+
+    loadStimuliData('audios', 'letter', 9);
+    loadStimuliData('audios', 'double_word', 8);
+    loadStimuliData('audios', 'word', 8);
+
+    loadStimuliData('images', 'animal', 5);
+    loadStimuliData('images', 'chess', 5);
+    loadStimuliData('images', 'eiroglif', 3);
+    loadStimuliData('images', 'figure', 6);
+    loadStimuliData('images', 'man', 5);
+    loadStimuliData('images', 'smile', 5);
+    loadStimuliData('images', 'weapon', 4);
 
     //if(data['intervalObj'] == null){
 
