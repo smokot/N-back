@@ -4,11 +4,8 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="styles.css">
     </head>
-
-    <div class="all">
         <div class="button settings"> </div>
-
-        <div class="block settings" style="display: none;">
+        <div class="block settings">
             
             <div class="N-level border">
                 <div class="label">Уровень</div>
@@ -17,117 +14,95 @@
                 <div class="arrow_right"></div>
             </div>
 
-            <div class="Show-quantity border" style="height: 140px;">
+            <div class="Show-quantity border">
                 <div class="label">Кол-во показов</div>
                 <div class="arrow_left"></div>
-                <div class="num-value" style="font-size: 65px;">1</div>
+                <div class="num-value">1</div>
                 <div class="arrow_right"></div>
             </div>
 
-            <div class="Show-time border" style="height: 140px;">
+            <div class="Show-time border">
                 <div class="label">Задержка(млсек)</div>
                 <div class="arrow_left"></div>
-                <div class="num-value" style="font-size: 63px;margin-left: -94px;">1500</div>
+                <div class="num-value">1500</div>
                 <div class="arrow_right"></div>
             </div>
 
-            <div class="Stimules border" style="height: 200px;">
+            <div class="Stimules border">
                 <div class="label">Стимулы</div>
 
-                <div class="button position choosed" style="cursor: pointer; left: 8px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
-                </div>
-
-                <div class="button audio choosed" style="cursor: pointer; left: 77px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
-                </div>
-
-                <div class="button color choosed" style="cursor: pointer; left: 146px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);" >
-                </div>
-
-                <div class="button image choosed" style="cursor: pointer; left: 215px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
-                </div>
-
-                <div class="button image-category choosed" style="cursor: pointer; left: 284px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
-                </div>
-
-                <div class="button audio-category choosed" style="cursor: pointer; left: 354px; top: 516px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
-                </div>
-
-                <div class="button tile-border choosed" style="cursor: pointer; left: 8px; top: 600px;width: 50px;background-size: 83%;box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);">
-                </div>
+                <div class="button position choosed picture"></div>
+                <div class="button audio choosed picture"></div>
+                <div class="button color choosed picture"></div>
+                <div class="button image choosed picture"></div>
+                <div class="button image-category choosed picture"> </div>
+                <div class="button audio-category choosed picture"></div>
+                <div class="button tile-border choosed picture"></div>
             </div>
-
-            <image class="close" src="pictures/interface/settings/close.png"></image>
-            
         </div>
         
-    
-        <div class="block game" >
-    
+        <div class="block game">
             <div class="level">
                 N = 1
             </div>
             
-            <div class="tile 1" style="left: 25px;"></div>
-            <div class="tile 2" style="left: 200px;"></div>
-            <div class="tile 3" style="left: 375px;"></div>
+            <div class="tile 1"></div>
+            <div class="tile 2"></div>
+            <div class="tile 3" ></div>
     
-            <div class="tile 4" style="left: 25px; top: 190px; "></div>
-            <div class="tile 5" style="left: 200px; top: 190px; " onclick="start()">
+            <div class="tile 4"></div>
+            <div class="tile 5" onclick="start()">
                 <image class="play" src="pictures/interface/play.png"></image>
             </div>
-            <div class="tile 6" style="left: 375px; top: 190px; "></div>
+            <div class="tile 6"></div>
     
-            <div class="tile 7" style="left: 25px; top: 380px; "></div>
-            <div class="tile 8" style="left: 200px; top: 380px; "></div>
-            <div class="tile 9" style="left: 375px; top: 380px; "></div>
+            <div class="tile 7"></div>
+            <div class="tile 8"></div>
+            <div class="tile 9"></div>
+
+            <div class="buttons">
+                <div class="position-stimul cell">
+                    <div class="v-label positions">0</div>
+                    <div class="button picture position" onmousedown="stimulReady('positions')">
+                    </div>
+                </div>
+        
+                <div class="audio-stimul cell">
+                    <div class="v-label audios">0</div>
+                    <div class="button picture audio" onmousedown="stimulReady('audios')">
+                    </div>
+                </div>
+        
+                <div class="color-stimul cell">
+                    <div class="v-label colors"> 0</div>
+                    <div class="button picture color" onmousedown="stimulReady('colors')">
+                    </div>
+                </div>
+                
+                <div class="image-stimul cell">
+                    <div class="v-label images">0</div>
+                    <div class="button picture image" onmousedown="stimulReady('images')">
+                    </div>
+                </div>
     
-
-            <div class="position-stimul">
-                <div class="v-label positions" style="left: 145px; top: 545px; ">0</div>
-                <div class="button position" style="cursor: pointer;" onmousedown="stimulReady('positions')">
-                    <!-- <image class="label" src="pictures/keys/key_p.png"></image> -->
+                <div class="image-category-stimul cell">
+                    <div class="v-label image-categorys">0</div>
+                    <div class="button picture image-category" onmousedown="stimulReady('image-categorys')">
+                    </div>
                 </div>
-            </div>
     
-            <div class="audio-stimul">
-                <div class="v-label audios" style="left: 255px; top: 545px;">0</div>
-                <div class="button audio" style="cursor: pointer;" onmousedown="stimulReady('audios')">
-                    <!-- <image class="label" src="pictures/keys/key_s.png"></image> -->
+                <div class="audio-category-stimul cell">
+                    <div class="v-label audio-categorys">0</div>
+                    <div class="button picture audio-category" onmousedown="stimulReady('audio-categorys')">
+                       
+                    </div>
                 </div>
-            </div>
     
-            <div class="color-stimul">
-                <div class="v-label colors" style="left: 365px; top: 545px; ">0</div>
-                <div class="button color" style="cursor: pointer;" onmousedown="stimulReady('colors')">
-                    <!-- <image  class="label" src="pictures/keys/key_c.png"></image> -->
-                </div>
-            </div>
-            
-            <div class="image-stimul">
-                <div class="v-label images" style=" left: 475px; top: 545px; ">0</div>
-                <div class="button image" style="cursor: pointer;" onmousedown="stimulReady('images')">
-                    <!-- <image class="label" src="pictures/keys/key_i.png"></image> -->
-                </div>
-            </div>
-
-            <div class="image-category-stimul">
-                <div class="v-label image-categorys" style=" left: 585px; top: 545px;  ">0</div>
-                <div class="button image-category" style="cursor: pointer;" onmousedown="stimulReady('image-categorys')">
-                    <!-- <image class="label" src="pictures/keys/key_o.png"></image> -->
-                </div>
-            </div>
-
-            <div class="audio-category-stimul">
-                <div class="v-label audio-categorys" style="left: 145px; top: 665px; ">0</div>
-                <div class="button audio-category" style="cursor: pointer;" onmousedown="stimulReady('audio-categorys')">
-                    <!-- <image class="label" src="pictures/keys/key_o.png"></image> -->
-                </div>
-            </div>
-
-            <div class="tile-border-stimul">
-                <div class="v-label tile-borders" style="left: 255px; top: 665px; ">0</div>
-                <div class="button tile-border" style="cursor: pointer;" onmousedown="stimulReady('tile-borders')">
-                    <!-- <image class="label" src="pictures/keys/key_o.png"></image> -->
+                <div class="tile-border-stimul cell">
+                    <div class="v-label tile-borders">0</div>
+                    <div class="button picture tile-border" onmousedown="stimulReady('tile-borders')">
+                      
+                    </div>
                 </div>
             </div>
 
@@ -139,36 +114,71 @@
             
         </div>
     
-        <div class="block result" style="display: none;">
-            <div class="go_home"></div>
-
-            <div class="repeat">
-                <div class="level" style="user-select: none; width: 334px;top: 147px; left: 33px;font-size: 79px;">
+        <div class="block result">
+            <div class="picture repeat">
+                <div class="level">
                     N = 1
                 </div>
             </div>
 
             <div class="percent-score final-score">10</div>
 
-            <div class="percent-score positions"       style="left: 140px; top: 564px;">10</div>
-            <div class="percent-score audios"          style="left: 245px; top: 564px;">10</div>
-            <div class="percent-score colors"          style="left: 360px; top: 564px;">10</div>
+            <div class="buttons">
+                <div class="position-stimul cell">
+                    <div class="v-label positions">0</div>
+                    <div class="button picture position">
+                    </div>
+                </div>
+        
+                <div class="audio-stimul cell">
+                    <div class="v-label audios">0</div>
+                    <div class="button picture audio">
+                    </div>
+                </div>
+        
+                <div class="color-stimul cell">
+                    <div class="v-label colors"> 0</div>
+                    <div class="button picture color">
+                    </div>
+                </div>
+                
+                <div class="image-stimul cell">
+                    <div class="v-label images">0</div>
+                    <div class="button picture image">
+                    </div>
+                </div>
+    
+                <div class="image-category-stimul cell">
+                    <div class="v-label image-categorys">0</div>
+                    <div class="button picture image-category">
+                    </div>
+                </div>
+    
+                <div class="audio-category-stimul cell">
+                    <div class="v-label audio-categorys">0</div>
+                    <div class="button picture audio-category">
+                       
+                    </div>
+                </div>
+    
+                <div class="tile-border-stimul cell">
+                    <div class="v-label tile-borders">0</div>
+                    <div class="button picture tile-border">
+                      
+                    </div>
+                </div>
+            </div>
 
-            <div class="percent-score images"          style="left: 465px; top: 564px;">10</div>
-            <div class="percent-score image-categorys" style="left: 575px; top: 564px;">10</div>
-            <div class="percent-score audio-categorys" style="left: 137px; top: 680px;">10</div>
-            <div class="percent-score tile-borders"    style="left: 245px; top: 680px;">10</div>
-
-            <div class="button position"></div>
-            <div class="button audio"></div>
-            <div class="button color"></div>
-            <div class="button image"></div>
-            <div class="button image-category"></div>
-            <div class="button audio-category"></div>
-            <div class="button tile-border"></div>
+            <div class="last-games">
+                <!-- <div class="score">25</div>
+                
+                <div class="avg score">100</div> -->
+            </div>
         </div>
 
-    </div>
+    <div class="go_home"></div>
+
+    <script src="utils.js"></script>
     
     <script src="script-game.js"></script>
     <script src="script-settings.js"></script>
@@ -177,7 +187,6 @@
 
     <script>
         drawLastGamesRows();
-
         select('.Show-quantity .num-value').innerText = calculateShowQuantity();
     </script>
 </html>

@@ -1,30 +1,12 @@
-
-let data = {};
-data['positions']   = select('.block .tile', 'all');
-data['buttons']     = {
-    'positions':select('.block.game .button.position'), 
-    'audios':select('.block.game .button.audio'), 
-    'colors':select('.block.game .button.color'), 
-    'images':select('.block.game .button.image'),
-    'image-categorys':select('.block.game .button.image-category'),
-    'audio-categorys':select('.block.game .button.audio-category'),
-    'tile-borders':select('.block.game .button.tile-border'),
+let data = {
+    'positions'     : select('.block .tile', 'all'),
+    'colors'        : ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'],
+    'tile-borders'  : ["solid", "dotted", "dashed", "double"],
+    'intervalObj'   : null,
+    'is_tile_locked': false,
+    'result'        : {'percent':{}},
+    'stimuli'       : {}
 };
-data['audios']      = [];
-data['colors']      = ['#49e00c','#0132fff2','#ed2727','#41405c','#0094ff','#92af7d'];
-data['images']      = [];
-data['image-categorys']   = []; 
-data['audio-categorys']   = []; 
-data['tile-borders']     = ["8px solid", "8px dotted", "8px dashed", "8px double"]; 
-
-data['intervalObj'] = null;
-data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[], 'image-categorys':[], 'audio-categorys':[], 'tile-borders':[], 'counter':0};
-data['counter']     = 0;
-data['result']      = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0, "tile-borders":0}, 'incorrect':{'audios':0,'positions':0,'colors':0,'images':0,"image-categorys":0, 'audio-categorys':0,"tile-borders":0}};
-data['v-back']      = {'audios':0, 'positions':0, 'colors':0, 'images':0,"image-categorys":0, 'audio-categorys':0,"tile-borders":0};
-data['requiredShow']= {'audios':[], 'positions':[], 'colors':[], 'images':[], "image-categorys":[], 'audio-categorys':[],"tile-borders":[]};
-data['is_tile_locked'] = false;
-
 
 let settings = {
     'N'                      : 1,
@@ -36,34 +18,6 @@ let settings = {
     'ShowTimeInterval'       : 1500,
     'showQuantity'           : {"active": 20, "static": 20},
     'audioVolume'            : 0.3
-}
-
-function select(selector, flag) {
-    return (flag=='all') ? document.querySelectorAll(selector) : document.querySelector(selector);
-}
-function hideElement(element) {
-    select(element).style['display'] = 'none';
-}
-
-function showElement(element) {
-    select(element).style['display'] = 'block';
-}
-
-function random_int(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function changeColor(element, color) {
-    element.style.backgroundColor = color;
-}
-
-function eventPosition(element) {
-    changeColor(element,settings['highlightTileColor']);
-    setTimeout(() => { 
-        changeColor(element,settings['defaultTileColor']);
-    }, settings['ShowTimeInterval']);
 }
 
 function eventAudio(audioElem) {
@@ -80,104 +34,75 @@ function eventColor(element, color){
 }
 
 function eventBorder(element, borderStyle){
-    element.style['border'] = borderStyle;
+    element.style['border'] = '13px';
+    element.style['border-style'] = borderStyle;
     setTimeout(() => { 
-        element.style['border'] = 'none';
+        element.style['border'] = '';
+        element.style['border-style'] = '';
     }, settings['ShowTimeInterval']);
 }
 
-
-function generateRequiredShows(quantity, size){
-    let array = Array(size).fill(0); 
-
-    if(size >= quantity){
-        while(quantity){
-            let position = random_int(0, array.length - 1);
-            if(array[position] == 0){
-                array[position] = 1;
-                quantity--;
-            }
-        }
-    }
-
-    return array;
-}
-
 function eventImage(element, image){
-    element.style['background-image']      = 'url(pictures/objects/'+image+')';
-    element.style['background-size']       = '70%';
-    element.style['background-repeat']     = 'no-repeat';
-    element.style['background-position-x'] = 'center';
-    element.style['background-position-y'] = 'center';
+    element.style['background-image'] = 'url(pictures/objects/'+image+')';
 
     setTimeout(() => { 
         element.style['background-image'] = '';
     }, settings['ShowTimeInterval']);
 }
+// function eventMath(element){
+//     let arAllTiles = select('.block .tile', 'all');
+//     let exceptElementIndex = element.classList[1] - 1;
+   
+//     arAllTiles  = deleteIndexFromArray(exceptElementIndex, arAllTiles);
+//     arMathTiles = [];
 
-function compareLast(type, isAfk){
-    let stimulVback   = settings['N'] - data['v-back'][type];
-    let resultCompare = data['savedElements'][type][settings['N']] == 
-                        data['savedElements'][type][stimulVback];
+//     for(let intIndex = 0; intIndex < 2; intIndex++){
+//         let randomIndex = random_int(0, arAllTiles.length - 1);
+//         arMathTiles.push(arAllTiles[randomIndex]);
+//     }
 
-    if(resultCompare && data['buttons'][type]['disabled'] == true){ 
-        data['result']['correct'][type]++;
+//     setTimeout(() => { 
+       
+//     }, settings['ShowTimeInterval']);
+// }
+
+function changeColor(element, color) {
+    element.style['backgroundColor'] = color;
+}
+
+function compare(type, isAfk){
+    let stimulVback   = settings['N'] - data['stimuli'][type]['v-back'];
+    let resultCompare = data['stimuli'][type]['savedElements'][settings['N']] 
+                        == 
+                        data['stimuli'][type]['savedElements'][stimulVback];
+
+    if(resultCompare && data['stimuli'][type]['element']['disabled'] == true){ 
+        data['stimuli'][type]['result']['correct']++;
     }else if(!isAfk){
-        data['result']['incorrect'][type]++;
+        data['stimuli'][type]['result']['incorrect']++;
     }
 
     if(isAfk && resultCompare){
-        data['result']['incorrect'][type]++;
+        data['stimuli'][type]['result']['incorrect']++;
     }
 }
-
 
 function stimulReady(type){
-    if(data['savedElements']['counter'] >= settings['N'] + 1){
-        if(type != 'afk' && !data['buttons'][type]['disabled']){
-            data['buttons'][type]['disabled'] = true;
-            
-            changeColor(data['buttons'][type], settings['buttonColor']);
-            compareLast(type, false);
+    if(data['counter'] > settings['N']){
+        if(type != 'afk' && !data['stimuli'][type]['element']['disabled']){
+            data['stimuli'][type]['element']['disabled'] = true;
+     
+            changeColor(data['stimuli'][type]['element']['html'], settings['buttonColor']);
+            compare(type, false);
         }else{
-
             select('.Stimules .button.choosed','all').forEach((item)=>{
                 let stimulName = item.classList[1] + 's';
-
-                if(data['buttons'][stimulName]['disabled'] == false){
-                    compareLast(stimulName, true);
+                if(data['stimuli'][stimulName]['element']['disabled'] == false){
+                    compare(stimulName, true);
                 }
             });
-            /*for(buttonType in data['buttons']){
-                if(data['buttons'][buttonType]['disabled'] == false){
-                    compareLast(buttonType, true);
-                }
-            }*/
         }
     }
-}
-
-function resetResults(){
-    data['savedElements'] = {'audios':[], 'positions':[], 'colors':[], 'images':[] ,'image-categorys':[], 'audio-categorys':[],'counter':0};
-    data['counter']       = 0;
-    data['result']        = {'percent':{},'correct':{'audios':0,'positions':0,'colors':0,'images':0, 'image-categorys':0,'audio-categorys':0}, 
-                                        'incorrect':{'audios':0,'positions':0,'colors':0,'images':0, 'image-categorys':0,'audio-categorys':0}
-                            };
-    data['v-back']        = {'audios':0, 'positions':0, 'colors':0, 'images':0, 'image-categorys':0,'audio-categorys':0};
-    settings['showQuantity']['active'] = settings['showQuantity']['static'];
-  
-    for(buttonType in data['buttons']){
-        select('.v-label.'+buttonType).innerText = data['v-back'][buttonType];
-    }
-
-    select('.block.result .percent-score', 'all').forEach((item) => {
-        let arColors = ['red','gray','yellow'];
-        let itemClassName = item.classList[2];
-
-        if(arColors.includes(itemClassName)){
-            item.classList.remove(itemClassName);
-        }
-    });
 }
 
 function handleKeyDown(event){
@@ -205,7 +130,7 @@ function eventButtons(){
 function getRandomElementByCategory(type, category){
     let arCategoryElements = [];
 
-    data[type].forEach((item) => {
+    data['stimuli'][type]['data'].forEach((item) => {
         if(category == getCategory(item)){
             arCategoryElements.push(item);
         }
@@ -217,13 +142,9 @@ function getRandomElementByCategory(type, category){
 }
 
 function getCategory(str){
-    let strToReplace = '';
-
     if(result = str.match(/_[0-9]+.[png|mp3]+/)){
-        strToReplace = result[0];
-
-        if(strToReplace){
-            str = str.replace(strToReplace, '');
+        if (result) {
+            return str.replace(result[0], '');
         }
     }
 
@@ -231,27 +152,26 @@ function getCategory(str){
 }
 
 function getLastElement(type){
-    return data['savedElements'][type][data['savedElements'][type].length - 1];
+    return data['stimuli'][type]['savedElements'][data['stimuli'][type]['savedElements'].length - 1] ?? '';
 }
 
 function getNextElement(type){
+    let nextElement  = data['stimuli'][type]['data'][random_int(0, data['stimuli'][type]['data'].length - 1)];
 
-    let nextElement  = data[type][random_int(0, data[type].length - 1)];
-
-    if(data['savedElements']['counter'] > settings['N']){
-        let v_back_index   = (settings['N'] - data['v-back'][type]);
-        let isRequiredShow = data['requiredShow'][type][data['savedElements']['counter']] > 0;
+    if(data['counter'] > settings['N']){
+        let v_back_index   = (settings['N'] - data['stimuli'][type]['v-back']);
+        let isRequiredShow = data['stimuli'][type]['requiredShow'][data['counter']] > 0;
 
         if(isRequiredShow){
             let arTypes = {'image-categorys':'images', 'audio-categorys':'audios'};
 
             if(categoryType = arTypes[type]){
-                if(data['requiredShow'][categoryType][data['savedElements']['counter']] < 1){
-                    let vBackCategory = data['savedElements'][type][v_back_index]
+                if(data['stimuli'][categoryType]['requiredShow'][data['counter']] > 0){
+                    let vBackCategory = data['stimuli'][type]['savedElements'][v_back_index]
                     nextElement = getRandomElementByCategory(categoryType, vBackCategory);
                 }
             }else{
-                nextElement = data['savedElements'][type][v_back_index] ?? nextElement;
+                nextElement = data['stimuli'][type]['savedElements'][v_back_index] ?? nextElement;
             }
         }
     }
@@ -260,16 +180,11 @@ function getNextElement(type){
 }
 
 function addNextElements(){
-    let lengthPositions = data['savedElements']['positions'].length - 1;
-    //let lastPosition    = data['savedElements']['positions'][lengthPositions];
-
     let nextPosition = getNextElement('positions');
-
-    let arTypes = {'image-categorys':'images', 'audio-categorys':'audios'};
+    let arTypes      = {'image-categorys':'images', 'audio-categorys':'audios'};
 
     select('.Stimules .button.choosed','all').forEach((item)=>{
         let className  = item.classList[1] + 's';
-
         let nextStimul = getNextElement(className);
 
         if(className == 'positions'){
@@ -280,10 +195,10 @@ function addNextElements(){
             nextStimul = getCategory(getLastElement(categoryType));
         }
 
-        data['savedElements'][className].push(nextStimul);
-
+        data['stimuli'][className]['savedElements'].push(nextStimul);
+        
         if(className == 'positions'){
-            eventPosition(nextPosition);
+            eventColor(nextPosition, settings['highlightTileColor']);
         }
 
         if(className == 'colors'){
@@ -302,31 +217,19 @@ function addNextElements(){
             eventBorder(nextPosition, nextStimul);
         }
     });
-
-    data['savedElements']['counter']++;
-
+    data['counter']++;
     data['is_tile_locked'] = true;
 
-    if(data['savedElements']['counter'] > settings['N']){
-        for(buttonType in data['buttons']){
-            data['v-back'][buttonType] = random_int(1, settings['N']);
-            select('.v-label.'+buttonType).innerText = data['v-back'][buttonType];
+    if(data['counter'] > settings['N']){
+        for(buttonType in data['stimuli']){
+            data['stimuli'][buttonType]['v-back'] = random_int(1, settings['N']);
+            select('.game .v-label.'+buttonType).innerText = data['stimuli'][buttonType]['v-back'];
         }
     }
 
     setTimeout(()=>{
         data['is_tile_locked'] = false;
     }, settings['ShowTimeInterval']);
-
-}
-
-function array_sum(array){
-    let sum = 0;
-    array.forEach(function(num) { 
-        sum += num; 
-    });
-
-    return sum;
 }
 
 function getColorByScore(score){
@@ -344,6 +247,13 @@ function getColorByScore(score){
     return '';
 }
 
+function rotateTiles(intDegree){
+    let arTiles = select('.tile', 'all');
+
+    arTiles.forEach((item)=>{
+        item.style['transform'] = 'rotate('+intDegree.toString()+'deg)';
+    });
+}
 
 function setScore(element, score){
     if(isNaN(score)){
@@ -351,6 +261,10 @@ function setScore(element, score){
     }
 	
     score = parseInt(score);
+
+    for(classColor of ['red', 'gray', 'yellow']){
+        element.classList.remove(classColor);
+    }
 
     element.classList.add(getColorByScore(score));
     element.innerText = score + '%';
@@ -394,55 +308,69 @@ function loadStimuliData(strStimulName, strCategoryName, intMaxQuantity){
     let arExctentions = {'audios' : '.mp3', "images":".png"};
     let strExctention = arExctentions[strStimulName];
     for(let intCounter = 1; intCounter <= intMaxQuantity; intCounter++){
-        data[strStimulName].push(strCategoryName + "_" + intCounter.toString() 
-                                        + strExctention);
+        data['stimuli'][strStimulName]['data'].push(strCategoryName + "_" + intCounter.toString() + strExctention);
     }
 }
 
 function isEnd(){
     if(settings['showQuantity']['active'] == 0){
-        let correct_sum = array_sum(Object.values(data['result']['correct']));
-        let incorrect_sum = array_sum(Object.values(data['result']['incorrect']));
-        let all_shows = incorrect_sum + correct_sum;
-        
-        data['result']['percent'] = (correct_sum > 0) ? ((correct_sum / all_shows) * 100) : 0;
+
+        let arResultData = {
+            'correct_sum'  : 0,
+            'incorrect_sum': 0,
+            'all_shows'    : 0
+        };
+
+        for(stimulName in data['stimuli']){
+            arResultData['correct_sum']   += data['stimuli'][stimulName]['result']['correct'];
+            arResultData['incorrect_sum'] += data['stimuli'][stimulName]['result']['incorrect'];
+        }
+
+        arResultData['all_shows'] = arResultData['correct_sum'] + arResultData['incorrect_sum'];
+        data['result']['percent'] = (arResultData['correct_sum'] > 0) ? ((arResultData['correct_sum'] / arResultData['all_shows']) * 100) : 0;
 
         hideElement('.block.game');
-        showElement('.block.result');
+        showElement('.block.result', 'flex');
+        showElement('.go_home', 'flex');
 
-        select('.block.result .percent-score', 'all').forEach((item) => {
+        setScore(select('.block.result .percent-score.final-score'), data['result']['percent']);
+
+        select('.block.result .buttons .cell .v-label', 'all').forEach((item) => {
             let itemClassName = item.classList[1];
             scorePercent = 0;
 
             if(itemClassName == 'final-score'){
                 scorePercent = data['result']['percent'];
             }else{
-                let intCorrect    = data['result']['correct'][itemClassName];
-                let intIncorrect  = data['result']['incorrect'][itemClassName];
-                scorePercent  = parseInt((( intCorrect / (intCorrect + intIncorrect)) * 100));
+                let intCorrect    = data['stimuli'][itemClassName]['result']['correct'];
+                let intIncorrect  = data['stimuli'][itemClassName]['result']['incorrect'];
+                scorePercent      = parseInt((( intCorrect / (intCorrect + intIncorrect)) * 100));
             }
             
             setScore(item, scorePercent);
         });
         
         let intFinalPercent = isNaN(data['result']['percent']) ? 0 : parseInt(data['result']['percent']);
-        
-        if(intFinalPercent >= 80){
+        let scoreColor      = getColorByScore(intFinalPercent);
+
+        if(scoreColor == "yellow"){
             settings['N']++;
         }
 
-        if(intFinalPercent < 40 && settings['N'] != 1){
+        if(scoreColor == "red" && settings['N'] != 1){
             settings['N']--;
         }
 
-        let nLevel       = select('.block.result .repeat .level');
-        nLevel.innerText = "N = " + settings['N'];
-
-        nLevel.style['color'] = getColorByScore(intFinalPercent);
-
+        let nLevel            = select('.block.result .repeat .level');
+        nLevel.innerText      = "N = " + settings['N'];
+        nLevel.style['color'] = scoreColor;
 
         //collectLastGames(data['result']['percent']);
+        select('body').removeEventListener('keydown', handleKeyDown);
 
+        select('.block.game .tile','all').forEach((element) => {
+            element.removeEventListener('click', handleKeyDown);
+        });
 
         return true;
     }else{
@@ -452,16 +380,16 @@ function isEnd(){
 }
 
 function step(){
-    if(data['savedElements']['counter'] > settings['N']){
+    if(data['counter'] > settings['N']){
         // FROM [a,b,c,d] TO [b,c,d]
-        Object.keys(data['buttons']).forEach((stimulType) => {
-            data['savedElements'][stimulType] = data['savedElements'][stimulType].slice(1, settings['N'] + 1); 
+        Object.keys(data['stimuli']).forEach((stimulType) => {
+            data['stimuli'][stimulType]['savedElements'] = data['stimuli'][stimulType]['savedElements'].slice(1, settings['N'] + 1); 
         });  
     }
 
-    for(buttonType in data['buttons']){
-        changeColor(data['buttons'][buttonType], settings['defaultButtonColor']);
-        data['buttons'][buttonType]['disabled'] = false;
+    for(buttonType in data['stimuli']){
+        changeColor(data['stimuli'][buttonType]['element']['html'], settings['defaultButtonColor']);
+        data['stimuli'][buttonType]['element']['disabled'] = false;
     }
 
     if(!isEnd()){
@@ -471,12 +399,42 @@ function step(){
     settings['showQuantity']['active']--;
 }
 
-
 function start(){
+    let arData = {
+        'position':       data['positions'],
+        'audio':          [],
+        'color':          data['colors'],
+        'image':          [],
+        'image-category': [],
+        'audio-category': [],
+        'tile-border':    data['tile-borders']
+    }
+
+    data['counter'] = 0;
+
+    for(buttonType in arData){
+        let class_s = buttonType + 's';
+        
+        data['stimuli'][class_s] = {
+            'element'       : {'disabled': true, 'html': select('.block.game .button.'+buttonType)},
+            'requiredShow'  : generateRequiredShows(parseInt(settings['showQuantity']['static'] / 2), settings['showQuantity']['static']),
+            'savedElements' : [],
+            'data'          : arData[buttonType],
+            'v-back'        : 0,
+            'result'        : {
+                'correct'   : 0,
+                'incorrect' : 0
+            }
+        };
+    }
+
+    settings['showQuantity']['active']   = settings['showQuantity']['static'];
+    data['stimuli']['positions']['data'] = data['positions'];
 
     loadStimuliData('audios', 'letter', 9);
     loadStimuliData('audios', 'double_word', 8);
     loadStimuliData('audios', 'word', 8);
+    loadStimuliData('audios', 'piano', 7);
 
     loadStimuliData('images', 'animal', 5);
     loadStimuliData('images', 'chess', 5);
@@ -488,23 +446,16 @@ function start(){
 
     //if(data['intervalObj'] == null){
 
-    select('.v-label','all').forEach((item)=>{
-        item.style['display'] = 'block';
-    });
-
     select('.level').innerText = "N = "+settings['N'];
     eventButtons();
 
     hideElement('.play'); 
+    hideElement('.go_home'); 
     hideElement('.button.settings'); 
     hideElement('.block.result'); 
 
-    showElement('.block.game');
-
-    for(buttonType in data['buttons']){
-        data['requiredShow'][buttonType] = generateRequiredShows(parseInt(settings['showQuantity']['static'] / 2), settings['showQuantity']['static']);
-    }
-
+    showElement('.block.game', 'flex');
+    
         // data['intervalObj'] = setInterval(() => {
         //     //step();
         // }, settings['highlightTileInterval']); 

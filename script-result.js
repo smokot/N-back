@@ -1,29 +1,15 @@
-function select(selector, flag) {
-    return (flag=='all') ? document.querySelectorAll(selector) : document.querySelector(selector);
-}
-
-function hideElement(element) {
-    select(element).style['display'] = 'none';
-}
-
-function showElement(element) {
-    select(element).style['display'] = 'inline-block';
-}
-
-select('.block.result .go_home').addEventListener('mousedown', function(){
-    resetResults();
-
-    ['.block.game','.play','.button.settings'].forEach((element)=>{
-        showElement(element);
+select('.go_home').addEventListener('mousedown', function(){
+    ['.block.game', '.button.settings'].forEach((element)=>{
+        showElement(element, 'flex');
     });
 
+    showElement('.play', 'inline-block');
     hideElement('.block.result');
+    hideElement('.go_home');
 });
 
 
-
 select('.block.result .repeat').addEventListener('click', function(){
-    resetResults();
     start();
 });
 

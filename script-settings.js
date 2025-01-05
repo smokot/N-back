@@ -1,32 +1,23 @@
 
 select('.button.settings').addEventListener('click', function(){
-    showElement('.block.settings');
+    showElement('.block.settings', 'inline-block');
 });
 
 select('.block.settings').addEventListener('mouseleave', function(){
     hideElement('.block.settings');
 });
 
-select('.block.settings .close').addEventListener('click', function(){
-    hideElement('.block.settings');
-});
-
-function showElement(element) {
-    select(element).style['display'] = 'block';
-}
-
 function calculateShowQuantity(){
     return (20 + 1) + (settings['N'] ** 2); 
 }
 
 function setShowQuantity(value){
-    settings['showQuantity']['static'] = value;
-    settings['showQuantity']['active'] = value;
+    settings['showQuantity']['active'] = settings['showQuantity']['static'] = value;
 }
 
 function changeLevel(type){
-    let arTypes = {'down': {"max":1, "add": -1}, 'up': {"max":99, "add": 1}};
-    let n_level_element = select('.N-level .num-value');
+    let arTypes               = {'down': {"max":1, "add": -1}, 'up': {"max":99, "add": 1}};
+    let n_level_element       = select('.N-level .num-value');
     let show_quantity_element = select('.Show-quantity .num-value');
 
     if(n_level_element.innerText != arTypes[type]['max']){
@@ -47,11 +38,11 @@ function changeShowQuantity(type){
         'up': {"max":999, "add": 5}
     };
     let show_quantity_element = select('.Show-quantity .num-value');
+    let intQuantity = parseInt(show_quantity_element.innerText);
 
-    if((type == "down" && parseInt(show_quantity_element.innerText) > arTypes[type]['max']) ||
-       (type == "up" && parseInt(show_quantity_element.innerText) < arTypes[type]['max']) )
+    if((intQuantity > arTypes[type]['max']) || (intQuantity < arTypes[type]['max']) )
     {
-        let new_value = (parseInt(show_quantity_element.innerText));
+        let new_value = intQuantity;
         new_value = new_value + arTypes[type]['add'];
         show_quantity_element.innerText = new_value;
 
@@ -118,29 +109,14 @@ select('.Show-time .arrow_right').addEventListener('mousedown', function(){
 ///////////////////////////////////////////
 
 function showStimul(className){
-    showElement('.block.game .'+className+'-stimul');
-    showElement('.block.result .percent-score.'+className+'s');
-    showElement('.block.result .button.'+className);
+    showElement('.block.game .'+className+'-stimul','block');
+    showElement('.block.result .'+className+'-stimul','block');
 }
 
 function hideStimul(className){
     hideElement('.block.game .'+className+'-stimul');
-    hideElement('.block.result .percent-score.'+className+'s');
-    hideElement('.block.result .button.'+className);
+    hideElement('.block.result .'+className+'-stimul');
 }
-
-function arrayOfElementsHaveClass(arrayOfElements, className){
-    let haveClass = false;
-
-    arrayOfElements.forEach((element)=>{
-        if(element.classList.contains(className)){
-            haveClass = true;
-        }
-    });
-
-    return haveClass;
-}
-
 
 /**
  * Стимулы
