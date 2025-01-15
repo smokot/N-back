@@ -31,13 +31,20 @@
             <div class="Stimules border">
                 <div class="label">Стимулы</div>
 
+                <div class="button position choosed picture" title="Позиция"></div>
+                <div class="button audio choosed picture" title="Звук"></div>
+                <div class="button color choosed picture" title="Цвет плитки"></div>
+                <div class="button image choosed picture" title="Картинка"></div>
+                <div class="button image-category choosed picture" title="Категория картинки"> </div>
+                <div class="button audio-category choosed picture" title="Категория звука"></div>
+                <div class="button tile-border choosed picture" title="Границы плитки"></div>
+            </div>
+
+            <div class="Adaptation border">
+                <div class="label">Адаптация</div>
+
                 <div class="button position choosed picture"></div>
-                <div class="button audio choosed picture"></div>
-                <div class="button color choosed picture"></div>
-                <div class="button image choosed picture"></div>
-                <div class="button image-category choosed picture"> </div>
-                <div class="button audio-category choosed picture"></div>
-                <div class="button tile-border choosed picture"></div>
+                
             </div>
         </div>
         
@@ -51,8 +58,8 @@
             <div class="tile 3" ></div>
     
             <div class="tile 4"></div>
-            <div class="tile 5" onclick="start()">
-                <image class="play" src="pictures/interface/play.png"></image>
+            <div class="tile 5">
+                <image onclick="start()" class="play" src="pictures/interface/play.png"></image>
             </div>
             <div class="tile 6"></div>
     
@@ -63,45 +70,58 @@
             <div class="buttons">
                 <div class="position-stimul cell">
                     <div class="v-label positions">0</div>
-                    <div class="button picture position" onmousedown="stimulReady('positions')">
+                    <div class="button picture position">
                     </div>
                 </div>
         
                 <div class="audio-stimul cell">
                     <div class="v-label audios">0</div>
-                    <div class="button picture audio" onmousedown="stimulReady('audios')">
+                    <div class="button picture audio">
                     </div>
                 </div>
         
                 <div class="color-stimul cell">
                     <div class="v-label colors"> 0</div>
-                    <div class="button picture color" onmousedown="stimulReady('colors')">
+                    <div class="button picture color">
                     </div>
                 </div>
                 
                 <div class="image-stimul cell">
                     <div class="v-label images">0</div>
-                    <div class="button picture image" onmousedown="stimulReady('images')">
+                    <div class="button picture image">
                     </div>
                 </div>
     
                 <div class="image-category-stimul cell">
                     <div class="v-label image-categorys">0</div>
-                    <div class="button picture image-category" onmousedown="stimulReady('image-categorys')">
+                    <div class="button picture image-category">
                     </div>
                 </div>
     
                 <div class="audio-category-stimul cell">
                     <div class="v-label audio-categorys">0</div>
-                    <div class="button picture audio-category" onmousedown="stimulReady('audio-categorys')">
+                    <div class="button picture audio-category">
                        
                     </div>
                 </div>
     
                 <div class="tile-border-stimul cell">
                     <div class="v-label tile-borders">0</div>
-                    <div class="button picture tile-border" onmousedown="stimulReady('tile-borders')">
+                    <div class="button picture tile-border">
                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="block rules">
+                <div class="column stimul-click">
+                    <div class="text">
+                        Нажать на стимул
+                    </div>
+                </div>
+                <div class="column stimul-next">
+                    <div class="text">
+                        Следующий стимул
                     </div>
                 </div>
             </div>
