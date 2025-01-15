@@ -37,7 +37,7 @@ let settings = {
     'ShowTimeInterval'       : 1500,
     'showQuantity'           : {"active": 20, "static": 20},
     'audioVolume'            : 0.3,
-    'adaptiveButtonsCount'   : 5
+    'adaptiveButtonsCount'   : 3
 }
 
 function eventAudio(audioElem) {
