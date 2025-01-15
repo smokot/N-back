@@ -46,3 +46,15 @@ function arrayOfElementsHaveClass(arrayOfElements, className){
 
     return haveClass;
 }
+
+function arrayFlip(array){
+    array = Object.keys(array)                
+    .reduce(function(obj, key) {                
+            obj[array[key]] = key;
+        return obj;
+    }, {});  
+
+    return array;
+}
+
+   

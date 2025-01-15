@@ -1,0 +1,212 @@
+<html>
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+        <div class="button settings"> </div>
+        <div class="block settings">
+            
+            <div class="N-level border">
+                <div class="label">Уровень</div>
+                <div class="arrow_left"></div>
+                <div class="num-value">1</div>
+                <div class="arrow_right"></div>
+            </div>
+
+            <div class="Show-quantity border">
+                <div class="label">Кол-во показов</div>
+                <div class="arrow_left"></div>
+                <div class="num-value">1</div>
+                <div class="arrow_right"></div>
+            </div>
+
+            <div class="Show-time border">
+                <div class="label">Задержка(млсек)</div>
+                <div class="arrow_left"></div>
+                <div class="num-value">1500</div>
+                <div class="arrow_right"></div>
+            </div>
+
+            <div class="Stimules border">
+                <div class="label">Стимулы</div>
+
+                <div class="button position choosed picture" title="Позиция"></div>
+                <div class="button audio choosed picture" title="Звук"></div>
+                <div class="button color choosed picture" title="Цвет плитки"></div>
+                <div class="button image choosed picture" title="Картинка"></div>
+                <div class="button image-category choosed picture" title="Категория картинки"> </div>
+                <div class="button audio-category choosed picture" title="Категория звука"></div>
+                <div class="button tile-border choosed picture" title="Границы плитки"></div>
+            </div>
+
+            <div class="Adaptation border">
+                <div class="label">Адаптация</div>
+
+                <div class="button position choosed picture"></div>
+                
+            </div>
+        </div>
+        
+        <div class="block game">
+            <div class="level">
+                N = 1
+            </div>
+            
+            <div class="tile 1"></div>
+            <div class="tile 2"></div>
+            <div class="tile 3" ></div>
+    
+            <div class="tile 4"></div>
+            <div class="tile 5">
+                <image onclick="start()" class="play" src="pictures/interface/play.png"></image>
+            </div>
+            <div class="tile 6"></div>
+    
+            <div class="tile 7"></div>
+            <div class="tile 8"></div>
+            <div class="tile 9"></div>
+
+            <div class="buttons">
+                <div class="position-stimul cell">
+                    <div class="v-label positions">0</div>
+                    <div class="button picture position">
+                    </div>
+                </div>
+        
+                <div class="audio-stimul cell">
+                    <div class="v-label audios">0</div>
+                    <div class="button picture audio">
+                    </div>
+                </div>
+        
+                <div class="color-stimul cell">
+                    <div class="v-label colors"> 0</div>
+                    <div class="button picture color">
+                    </div>
+                </div>
+                
+                <div class="image-stimul cell">
+                    <div class="v-label images">0</div>
+                    <div class="button picture image">
+                    </div>
+                </div>
+    
+                <div class="image-category-stimul cell">
+                    <div class="v-label image-categorys">0</div>
+                    <div class="button picture image-category">
+                    </div>
+                </div>
+    
+                <div class="audio-category-stimul cell">
+                    <div class="v-label audio-categorys">0</div>
+                    <div class="button picture audio-category">
+                       
+                    </div>
+                </div>
+    
+                <div class="tile-border-stimul cell">
+                    <div class="v-label tile-borders">0</div>
+                    <div class="button picture tile-border">
+                      
+                    </div>
+                </div>
+            </div>
+
+            <div class="block rules">
+                <div class="column stimul-click">
+                    <div class="text">
+                        Нажать на стимул
+                    </div>
+                </div>
+                <div class="column stimul-next">
+                    <div class="text">
+                        Следующий стимул
+                    </div>
+                </div>
+            </div>
+
+            <div class="last-games">
+                <!-- <div class="score">25</div>
+                
+                <div class="avg score">100</div> -->
+            </div>
+            
+        </div>
+    
+        <div class="block result">
+            <div class="picture repeat">
+                <div class="level">
+                    N = 1
+                </div>
+            </div>
+
+            <div class="percent-score final-score">10</div>
+
+            <div class="buttons">
+                <div class="position-stimul cell">
+                    <div class="v-label positions">0</div>
+                    <div class="button picture position">
+                    </div>
+                </div>
+        
+                <div class="audio-stimul cell">
+                    <div class="v-label audios">0</div>
+                    <div class="button picture audio">
+                    </div>
+                </div>
+        
+                <div class="color-stimul cell">
+                    <div class="v-label colors"> 0</div>
+                    <div class="button picture color">
+                    </div>
+                </div>
+                
+                <div class="image-stimul cell">
+                    <div class="v-label images">0</div>
+                    <div class="button picture image">
+                    </div>
+                </div>
+    
+                <div class="image-category-stimul cell">
+                    <div class="v-label image-categorys">0</div>
+                    <div class="button picture image-category">
+                    </div>
+                </div>
+    
+                <div class="audio-category-stimul cell">
+                    <div class="v-label audio-categorys">0</div>
+                    <div class="button picture audio-category">
+                       
+                    </div>
+                </div>
+    
+                <div class="tile-border-stimul cell">
+                    <div class="v-label tile-borders">0</div>
+                    <div class="button picture tile-border">
+                      
+                    </div>
+                </div>
+            </div>
+
+            <div class="last-games">
+                <!-- <div class="score">25</div>
+                
+                <div class="avg score">100</div> -->
+            </div>
+        </div>
+
+    <div class="go_home"></div>
+
+    <script src="utils.js"></script>
+    
+    <script src="script-game.js"></script>
+    <script src="script-settings.js"></script>
+    <script src="script-result.js"></script>
+    <script src="script-storage.js"></script>
+
+    <script>
+        drawLastGamesRows();
+        select('.Show-quantity .num-value').innerText = calculateShowQuantity();
+    </script>
+</html>

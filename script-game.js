@@ -5,7 +5,26 @@ let data = {
     'intervalObj'   : null,
     'is_tile_locked': false,
     'result'        : {'percent':{}},
-    'stimuli'       : {}
+    'stimuli'       : {},
+    'adaptiveButtonsPictures': {
+        'mouse': {
+            0: 'mouse_left_click', 
+            1: 'mouse_middle_click', 
+            2: 'mouse_right_click',
+        },
+        'keyboard': {
+            'KeyV' : 'keyboard_key_v', 
+            'KeyQ' : 'keyboard_key_q', 
+            'KeyC' : 'keyboard_key_c', 
+            'Space': 'keyboard_key_space'
+        }
+    },
+    'adaptiveButtonsStackToClick': {
+        'chooseStimul' : [],
+        'nextStimul'   : [],
+        'tmpStack'     : []
+    },
+    
 };
 
 let settings = {
@@ -17,7 +36,8 @@ let settings = {
     'unHighlightTileInterval': 700,
     'ShowTimeInterval'       : 1500,
     'showQuantity'           : {"active": 20, "static": 20},
-    'audioVolume'            : 0.3
+    'audioVolume'            : 0.3,
+    'adaptiveButtonsCount'   : 5
 }
 
 function eventAudio(audioElem) {
@@ -106,11 +126,77 @@ function stimulReady(type){
 }
 
 function handleKeyDown(event){
-    if((event.code == "Space" || event.type == 'click') && data['is_tile_locked'] == false &&
-        select('.block.result').style['display'] == 'none')
-    {
-        stimulReady('afk');
-        step();
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if(event.type != "contextmenu"){
+        console.log(event);
+
+        let arTypes = {
+            "mousedown": {
+                'type': 'mouse',
+                'code': event.button
+            },
+            "keydown": {
+                'type': 'keyboard',
+                'code': event.code
+            }
+        };
+
+        let type = arTypes[event.type];
+
+        let button         = data['adaptiveButtonsPictures'][type['type']][type['code']];
+        data['adaptiveButtonsStackToClick']['tmpStack'].push(button);
+
+        let tmpStackLength = data['adaptiveButtonsStackToClick']['tmpStack'].length;
+
+        if(!tmpStackLength){
+            tmpStackLength--;
+        }
+
+        let arNextStimul   = data['adaptiveButtonsStackToClick']['nextStimul'].slice(0, tmpStackLength);
+        let arChooseStimul = data['adaptiveButtonsStackToClick']['chooseStimul'].slice(0, tmpStackLength);
+
+        if(!arNextStimul.toString().includes(data['adaptiveButtonsStackToClick']['tmpStack'].toString())
+            && 
+            !arChooseStimul.toString().includes(data['adaptiveButtonsStackToClick']['tmpStack'].toString()))
+        {
+            data['adaptiveButtonsStackToClick']['tmpStack'] = data['adaptiveButtonsStackToClick']['tmpStack'].slice(-1);
+        }
+
+        // if((event.code == "Space" || event.type == 'click') && data['is_tile_locked'] == false &&
+        //     select('.block.result').style['display'] == 'none')
+        // {
+            
+        //     stimulReady('afk');
+        //     step();
+        // }
+
+
+        //Если длина массива нажатий равна запланированному в настройках
+        if(data['adaptiveButtonsStackToClick']['tmpStack'].length == settings['adaptiveButtonsCount'])
+        {
+            if(data['is_tile_locked'] == false && select('.block.result').style['display'] == 'none')
+            {
+                //Сравниваем конечный результат нажатий 
+                if(data['adaptiveButtonsStackToClick']['tmpStack'].toString() 
+                    == data['adaptiveButtonsStackToClick']['nextStimul'].toString())
+                {
+                    stimulReady('afk');
+                    step();
+                }
+                if(data['adaptiveButtonsStackToClick']['tmpStack'].toString() 
+                    == data['adaptiveButtonsStackToClick']['chooseStimul'].toString())
+                {
+                    if(className = event.target.classList[2] ?? ''){
+                        stimulReady(className + 's');
+                    }
+                    //stimulReady('afk');
+                }
+            }
+            //Обнуляем для последующего ввода
+            data['adaptiveButtonsStackToClick']['tmpStack'] = [];
+        }
     }
 }
 
@@ -119,10 +205,11 @@ function eventButtons(){
         select('body').removeEventListener('keydown',handleKeyDown);
         select('body').addEventListener('keydown',handleKeyDown);
     
-        select('.block.game .tile','all').forEach((element) => {
-            element.removeEventListener('click', handleKeyDown);
-            element.addEventListener('click', handleKeyDown);
-        });
+        select('body').removeEventListener('mousedown',handleKeyDown);
+        select('body').addEventListener('mousedown',handleKeyDown);
+       
+        select('body').removeEventListener('contextmenu',handleKeyDown);
+        select('body').addEventListener('contextmenu',handleKeyDown);
 
     }, 500);
 }
@@ -248,10 +335,20 @@ function getColorByScore(score){
 }
 
 function rotateTiles(intDegree){
-    let arTiles = select('.tile', 'all');
+    //let arTiles = select('.tile', 'all');
 
-    arTiles.forEach((item)=>{
-        item.style['transform'] = 'rotate('+intDegree.toString()+'deg)';
+    select('.block.game').style['transform'] = 'rotate('+intDegree.toString()+'deg)';
+    //arTiles.forEach((item)=>{
+        //item.style['transform'] = 'rotate('+intDegree.toString()+'deg)';
+    //});
+}
+
+function shuffleButtons(){
+    let arButtonsCells = select('.game .buttons .cell', 'all');
+    
+    arButtonsCells.forEach((item)=>{
+        let randomCell = arButtonsCells[random_int(0, arButtonsCells.length - 1)];
+        item.parentNode.insertBefore(item, randomCell);
     });
 }
 
@@ -372,11 +469,59 @@ function isEnd(){
             element.removeEventListener('click', handleKeyDown);
         });
 
+        data['counter'] = 0;
+
         return true;
     }else{
         return false;
     }
 
+}
+
+function generateAdaptiveButtons(strType, intQuantity){
+    let arResult = [];
+    let arButtonsPictures = [];
+
+    if(data['adaptiveButtonsPictures'][strType] ?? 0){
+        arButtonsPictures = Object.values(data['adaptiveButtonsPictures'][strType]);
+    }
+
+    if(strType == "all"){
+        arButtonsPictures = Object.values(data['adaptiveButtonsPictures']['mouse']).concat(
+            Object.values(data['adaptiveButtonsPictures']['keyboard'])
+        );
+    }
+
+    if(arButtonsPictures.length){
+        for(let index = 0; index < intQuantity; index++){
+            arResult.push(arButtonsPictures[random_int(0, arButtonsPictures.length - 1)]);
+        }
+    }
+
+    return arResult;
+}
+
+function drawAdaptiveButtonsPictures(){
+    let columnStimulClick = select('.block.rules .column.stimul-click');
+    data['adaptiveButtonsStackToClick']['chooseStimul'] = generateAdaptiveButtons('mouse', settings['adaptiveButtonsCount']);
+
+    data['adaptiveButtonsStackToClick']['chooseStimul'].forEach((element) => {
+        columnStimulClick.innerHTML += '<div class="row picture ' + element + '\"></div>';
+    });
+
+    let columnStimulNext = select('.block.rules .column.stimul-next');
+
+    while(data['adaptiveButtonsStackToClick']['nextStimul'].toString() 
+        == data['adaptiveButtonsStackToClick']['chooseStimul'].toString() ||
+        data['adaptiveButtonsStackToClick']['nextStimul'].length == 0)
+    {
+        data['adaptiveButtonsStackToClick']['nextStimul'] = generateAdaptiveButtons('all', settings['adaptiveButtonsCount']);
+    }
+
+    data['adaptiveButtonsStackToClick']['nextStimul'].forEach((element) => {
+        columnStimulNext.innerHTML += '<div class="row picture ' + element + '\"></div>';
+    });
+    
 }
 
 function step(){
@@ -400,6 +545,9 @@ function step(){
 }
 
 function start(){
+    shuffleButtons();
+    drawAdaptiveButtonsPictures();
+
     let arData = {
         'position':       data['positions'],
         'audio':          [],

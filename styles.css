@@ -24,8 +24,44 @@
         height: max-content;
     }
 
+    &.rules{
+        right: 0;
+        left: 90%;
+        top: -6%;
+        bottom: 0;
+        box-shadow: -2px 1px 21px 9px rgb(0 0 22 / 23%);
+        width: 350px;
+        min-width: 100px;
+        display: flex;
+
+        height: 750px;
+        
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        .column{
+            box-shadow: 5px 0px 2px 0px rgb(75 77 119 / 35%);
+            width: 350px;
+            height: 750px;
+
+            .text{
+                box-shadow: 1px 4px 400px 2px rgb(100 100 150 / 48%);
+                font-size: 27px;
+                font-family: monospace;
+            }
+        }
+
+        .row{
+            box-shadow: 0px 1px 20px 3px rgb(100 100 150 / 48%);
+            height: 100px;
+            
+            margin-top: 30px;
+        }
+    }
+
     &.settings{
-        display: block;
         position: absolute;
         display: none;
         user-select: none;
@@ -39,24 +75,24 @@
         background-color: #61aefb;
 
         .Show-quantity{
-            height: 140px;
+            height: max-content;
 
             .num-value{
-                font-size: 65px;
+                font-size: 40px;
             }
         }
         
         .Show-time{
-            height: 140px;
+            height: max-content;
 
             .num-value{
-                font-size: 63px;
-                margin-left: -94px;
+                font-size: 40px;
+                margin-left: -30px;
             }
         }
 
         .Stimules{
-            height: 200px;
+            height: max-content;
 
             .button{
                 margin: 5px;
@@ -65,7 +101,7 @@
                 cursor: pointer; 
                 left: 215px; 
                 top: 516px;
-                width: 50px;
+                width: 40px;
                 background-size: 83%;
                 box-shadow: -1px 1px 3px 3px rgb(0 0 255 / 18%);
             }
@@ -76,7 +112,7 @@
         }
 
         .label{
-            font-size: 38px;
+            font-size: 26px;
             font-family: monospace;
             margin-top: 12px;
         }
@@ -85,17 +121,17 @@
             border: none;
             outline: unset;
             width: 47px;
-            font-size: 83px;
+            font-size: 50px;
             font-family: monospace;
             display: inline-block; 
         }
 
         .arrow_left{
             float: left; 
-            width: 83px;
-            height: 83px;
+            width: 48px;
+            height: 39px;
             background-image: url(pictures/interface/settings/arrow-left-wait.png);
-            background-size: 90%;
+            background-size: 80%;
             background-repeat: no-repeat;
             background-position-x: center;
             background-position-y: center;
@@ -109,10 +145,10 @@
         .arrow_right{
             float: right; 
      
-            width: 83px;
-            height: 83px;
+            width: 48px;
+            height: 39px;
             background-image: url(pictures/interface/settings/arrow-right-wait.png);
-            background-size: 90%;
+            background-size: 80%;
             background-repeat: no-repeat;
             background-position-x: center;
             background-position-y: center;
@@ -236,6 +272,27 @@
     }
     &.tile-border {
         background-image: url('pictures/stimulButtons/tile-border.png');
+    }
+    &.keyboard_key_c{
+        background-image: url('pictures/interface/adaptive/keyboard_key_c.png');
+    }
+    &.keyboard_key_v{
+        background-image: url('pictures/interface/adaptive/keyboard_key_v.png');
+    }
+    &.keyboard_key_q{
+        background-image: url('pictures/interface/adaptive/keyboard_key_q.png');
+    }
+    &.keyboard_key_space{
+        background-image: url('pictures/interface/adaptive/keyboard_key_space.png');
+    }
+    &.mouse_right_click{
+        background-image: url('pictures/interface/adaptive/mouse_right_click.png');
+    }
+    &.mouse_middle_click{
+        background-image: url('pictures/interface/adaptive/mouse_middle_click.png');
+    }
+    &.mouse_left_click{
+        background-image: url('pictures/interface/adaptive/mouse_left_click.png');
     }
     &.repeat{
         cursor: pointer;
