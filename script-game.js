@@ -37,7 +37,7 @@ let settings = {
     'ShowTimeInterval'       : 1500,
     'showQuantity'           : {"active": 20, "static": 20},
     'audioVolume'            : 0.3,
-    'adaptiveButtonsCount'   : 3
+    'adaptiveButtonsCount'   : 1
 }
 
 function eventAudio(audioElem) {
@@ -164,15 +164,6 @@ function handleKeyDown(event){
             data['adaptiveButtonsStackToClick']['tmpStack'] = data['adaptiveButtonsStackToClick']['tmpStack'].slice(-1);
         }
 
-        // if((event.code == "Space" || event.type == 'click') && data['is_tile_locked'] == false &&
-        //     select('.block.result').style['display'] == 'none')
-        // {
-            
-        //     stimulReady('afk');
-        //     step();
-        // }
-
-
         //Если длина массива нажатий равна запланированному в настройках
         if(data['adaptiveButtonsStackToClick']['tmpStack'].length == settings['adaptiveButtonsCount'])
         {
@@ -191,7 +182,6 @@ function handleKeyDown(event){
                     if(className = event.target.classList[2] ?? ''){
                         stimulReady(className + 's');
                     }
-                    //stimulReady('afk');
                 }
             }
             //Обнуляем для последующего ввода
@@ -502,6 +492,13 @@ function generateAdaptiveButtons(strType, intQuantity){
 }
 
 function drawAdaptiveButtonsPictures(){
+    let arExistedRows = select('.block.rules .row', 'all');
+    if(arExistedRows.length){
+        arExistedRows.forEach((element)=>{
+            element.remove();
+        });
+    }
+
     let columnStimulClick = select('.block.rules .column.stimul-click');
     data['adaptiveButtonsStackToClick']['chooseStimul'] = generateAdaptiveButtons('mouse', settings['adaptiveButtonsCount']);
 
@@ -545,6 +542,10 @@ function step(){
 }
 
 function start(){
+    data['adaptiveButtonsStackToClick']['chooseStimul'] = [];
+    data['adaptiveButtonsStackToClick']['nextStimul']   = [];
+    data['adaptiveButtonsStackToClick']['tmpStack']     = [];
+
     shuffleButtons();
     drawAdaptiveButtonsPictures();
 
@@ -575,6 +576,7 @@ function start(){
             }
         };
     }
+
 
     settings['showQuantity']['active']   = settings['showQuantity']['static'];
     data['stimuli']['positions']['data'] = data['positions'];
