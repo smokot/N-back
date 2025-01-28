@@ -1,5 +1,6 @@
 27.01.2025
 - Добавлен элемент "Постоянной новизны"
+  
   ![image](https://github.com/user-attachments/assets/c141c7b1-3745-43ea-9e0e-bd0be81f0667)
 
 
