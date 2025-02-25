@@ -23,8 +23,7 @@ let data = {
         'chooseStimul' : [],
         'nextStimul'   : [],
         'tmpStack'     : []
-    },
-    
+    },  
 };
 
 let settings = {

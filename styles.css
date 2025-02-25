@@ -68,10 +68,12 @@
         position: absolute;
         display: none;
         user-select: none;
+        
         top: 10px;
         width: 400px;
         height: max-content;
         min-width: unset;
+
         left: 5px;
         z-index: 10;
         box-shadow: -2px 1px 21px 9px rgb(0 0 22 / 23%);

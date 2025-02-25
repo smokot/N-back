@@ -15,8 +15,6 @@ function setShowQuantity(value){
     settings['showQuantity']['active'] = settings['showQuantity']['static'] = value;
 }
 
-
-
 function changeLevel(type){
     let arTypes               = {'down': {"max":1, "add": -1}, 'up': {"max":99, "add": 1}};
     let n_level_element       = select('.N-level .num-value');

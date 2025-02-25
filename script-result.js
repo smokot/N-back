@@ -12,4 +12,3 @@ select('.go_home').addEventListener('mousedown', function(){
 select('.block.result .repeat').addEventListener('click', function(){
     start();
 });
-
