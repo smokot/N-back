@@ -5,6 +5,7 @@ function hideElement(element) {
     select(element).style['display'] = 'none';
 }
 
+
 function showElement(element, showStyle) {
     select(element).style['display'] = showStyle;
 }
