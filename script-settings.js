@@ -15,6 +15,8 @@ function setShowQuantity(value){
     settings['showQuantity']['active'] = settings['showQuantity']['static'] = value;
 }
 
+
+
 function changeLevel(type){
     let arTypes               = {'down': {"max":1, "add": -1}, 'up': {"max":99, "add": 1}};
     let n_level_element       = select('.N-level .num-value');
@@ -65,6 +67,33 @@ function changeShowTime(type){
         settings['ShowTimeInterval'] = new_value;
     }
 }
+
+function changeCombinesQuantity(type){
+    let arTypes = {
+        'down': {"max":1, "add": -1}, 
+        'up': {"max":8, "add": 1}
+    };
+    let show_time_element = select('.Combinations .num-value');
+
+    if(show_time_element.innerText != arTypes[type]['max']){
+        let new_value = (parseInt(show_time_element.innerText));
+        new_value = new_value + arTypes[type]['add'];
+        show_time_element.innerText = new_value;
+
+        settings['adaptiveButtonsCount'] = new_value;
+    }
+}
+
+/**
+ * Кол-во комбинаций
+ */
+select('.Combinations .arrow_left').addEventListener('mousedown', function(){
+    changeCombinesQuantity('down');
+});
+
+select('.Combinations .arrow_right').addEventListener('mousedown', function(){
+    changeCombinesQuantity('up');
+});
 
 
 /**

@@ -34,17 +34,21 @@
         min-width: 100px;
         display: flex;
 
-        height: 750px;
+        height: 900px;
         
         align-items: flex-start;
         flex-wrap: nowrap;
         flex-direction: row;
         justify-content: space-evenly;
 
+        .picture{
+            background-size: 33%;
+        }
+
         .column{
             box-shadow: 5px 0px 2px 0px rgb(75 77 119 / 35%);
             width: 350px;
-            height: 750px;
+            height: inherit;
 
             .text{
                 box-shadow: 1px 4px 400px 2px rgb(100 100 150 / 48%);
@@ -54,10 +58,9 @@
         }
 
         .row{
-            box-shadow: 0px 1px 20px 3px rgb(100 100 150 / 48%);
+            box-shadow: 0px 0px 5px 1px rgb(100 100 150 / 48%);
             height: 100px;
-            
-            margin-top: 30px;
+         
         }
     }
 
@@ -175,6 +178,14 @@
 }
 
 .level{
+    /* display: none; */
+    top: -80px;
+    left: 310px;
+    position: absolute;
+    font-family: monospace;
+    font-size: 55px;
+}
+.rank{
     top: -80px;
     left: 310px;
     position: absolute;
