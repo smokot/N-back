@@ -105,7 +105,7 @@ function handleKeyDown(event){
         let className       = (event.target.classList[2] ?? '');
         let isStimulReady   = className && event.button == 0;
 
-        let isTile          = (event.target.classList[0] ?? '') == 'tile';
+        let isTile          = (event.target.classList[0] ?? '') == 'tile' && (event.button == 0);
         let isButtonPressed = event.code == 'Space' || isTile;
 
         if(isStimulReady){
@@ -122,6 +122,9 @@ function eventButtons(){
     setTimeout(function(){
         select('body').removeEventListener('touchstart',handleKeyDown);
         select('body').addEventListener('touchstart',handleKeyDown);
+
+        select('body').removeEventListener('mousedown',handleKeyDown);
+        select('body').addEventListener('mousedown',handleKeyDown);
 
         select('body').removeEventListener('keydown',handleKeyDown);
         select('body').addEventListener('keydown',handleKeyDown);
