@@ -120,8 +120,8 @@ function handleKeyDown(event){
 
 function eventButtons(){
     setTimeout(function(){
-        select('body').removeEventListener('mousedown',handleKeyDown);
-        select('body').addEventListener('mousedown',handleKeyDown);
+        select('body').removeEventListener('touchstart',handleKeyDown);
+        select('body').addEventListener('touchstart',handleKeyDown);
 
         select('body').removeEventListener('keydown',handleKeyDown);
         select('body').addEventListener('keydown',handleKeyDown);
