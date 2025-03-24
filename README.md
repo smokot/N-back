@@ -1,5 +1,6 @@
 24.03.2025
 - Добавлен новый стимул (математический)
+- Весь старый функционал удалён
  ![image](https://github.com/user-attachments/assets/2b4a8581-32d1-4de6-bcc6-cc3ca9c684da)
 
 
