@@ -4,29 +4,35 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'unsafe-inline';">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="control-styles.css">
     </head>
         <div class="button settings"> </div>
         <div class="block settings">
             
             <div class="N-level border">
                 <div class="label">Уровень</div>
-                <div class="arrow_left"></div>
-                <div class="num-value">1</div>
-                <div class="arrow_right"></div>
-            </div>
-
-            <div class="Show-quantity border">
-                <div class="label">Количество показов</div>
-                <div class="arrow_left"></div>
-                <div class="num-value">1</div>
-                <div class="arrow_right"></div>
+                <div class="input-range">
+                    <input type="range" style="width: 390px" min="1" max="20" step="1" value="1">
+                    <label class="value">1</label>
+                </div>  
             </div>
 
             <div class="Show-time border">
-                <div class="label">Задержка(млсек)</div>
-                <div class="arrow_left"></div>
-                <div class="num-value">1500</div>
-                <div class="arrow_right"></div>
+                <div class="label">Задержка</div>
+           
+                <div class="input-range">
+                    <input type="range" style="width: 390px" min="200" max="30000" step="50" value="1500">
+                    <label class="value">1500</label>
+                </div>
+            </div>
+
+            <div class="Math border">
+                <div class="label">Математика</div>
+           
+                <div class="input-range">
+                    <input type="range" style="width: 390px" min="2" max="5" step="1" value="2">
+                    <label class="value">2</label>
+                </div>
             </div>
 
             <div class="Stimules border">
@@ -36,23 +42,8 @@
                 <div class="button audio choosed picture" title="Звук"></div>
                 <div class="button color choosed picture" title="Цвет плитки"></div>
                 <div class="button image choosed picture" title="Картинка"></div>
-                <div class="button image-category choosed picture" title="Категория картинки"> </div>
-                <div class="button audio-category choosed picture" title="Категория звука"></div>
                 <div class="button tile-border choosed picture" title="Границы плитки"></div>
-            </div>
-
-            <div class="Combinations border">
-                <div class="label">Количество комбинаций</div>
-                <div class="arrow_left"></div>
-                <div class="num-value">1</div>
-                <div class="arrow_right"></div>
-            </div>
-
-            <div class="Adaptation border">
-                <div class="label">Адаптация</div>
-
-                <div class="button position choosed picture"></div>
-                
+                <div class="button math choosed picture" title="Математика"></div>
             </div>
         </div>
         
@@ -64,19 +55,60 @@
             <!-- <div class="rank">
                 123
             </div> -->
-            <div class="tile 1"></div>
-            <div class="tile 2"></div>
-            <div class="tile 3" ></div>
-    
-            <div class="tile 4"></div>
-            <div class="tile 5">
-                <image onclick="start()" class="play" src="pictures/interface/play.png"></image>
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 1"></div>
+                <div class="down"></div>
+                <div class="down down_ex"></div>
             </div>
-            <div class="tile 6"></div>
+            
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 2"></div>
+                <div class="down"></div>
+            </div>
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 3"></div>
+                <div class="down"></div>
+            </div>
     
-            <div class="tile 7"></div>
-            <div class="tile 8"></div>
-            <div class="tile 9"></div>
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 4"></div>
+                <div class="down"></div>
+            </div>
+
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 5">
+                    <image onclick="start()" class="play" src="pictures/interface/play.png"></image>
+                </div>
+                <div class="down"></div>
+            </div>
+
+            
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 6"></div>
+                <div class="down"></div>
+            </div>
+    
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 7"></div>
+                <div class="down"></div>
+            </div>
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 8"></div>
+                <div class="down"></div>
+            </div>
+            <div class="card">
+                <div class="top"></div>
+                <div class="tile 9"></div>
+                <div class="down"></div>
+            </div>
 
             <div class="buttons">
                 <div class="position-stimul cell">
@@ -103,36 +135,17 @@
                     </div>
                 </div>
     
-                <div class="image-category-stimul cell">
-                    <div class="v-label image-categorys">0</div>
-                    <div class="button picture image-category">
-                    </div>
-                </div>
-    
-                <div class="audio-category-stimul cell">
-                    <div class="v-label audio-categorys">0</div>
-                    <div class="button picture audio-category">
-                       
-                    </div>
-                </div>
-    
                 <div class="tile-border-stimul cell">
                     <div class="v-label tile-borders">0</div>
                     <div class="button picture tile-border">
                       
                     </div>
                 </div>
-            </div>
 
-            <div class="block rules">
-                <div class="column stimul-click">
-                    <div class="text">
-                        Нажать на стимул
-                    </div>
-                </div>
-                <div class="column stimul-next">
-                    <div class="text">
-                        Следующий стимул
+                <div class="math-stimul cell">
+                    <div class="v-label maths">0</div>
+                    <div class="button picture math">
+                      
                     </div>
                 </div>
             </div>
@@ -178,23 +191,16 @@
                     <div class="button picture image">
                     </div>
                 </div>
-    
-                <div class="image-category-stimul cell">
-                    <div class="v-label image-categorys">0</div>
-                    <div class="button picture image-category">
-                    </div>
-                </div>
-    
-                <div class="audio-category-stimul cell">
-                    <div class="v-label audio-categorys">0</div>
-                    <div class="button picture audio-category">
-                       
-                    </div>
-                </div>
-    
                 <div class="tile-border-stimul cell">
                     <div class="v-label tile-borders">0</div>
                     <div class="button picture tile-border">
+                      
+                    </div>
+                </div>
+
+                <div class="math-stimul cell">
+                    <div class="v-label maths">0</div>
+                    <div class="button picture math">
                       
                     </div>
                 </div>
@@ -215,9 +221,5 @@
     <script src="script-settings.js"></script>
     <script src="script-result.js"></script>
     <script src="script-storage.js"></script>
-
-    <script>
-        drawLastGamesRows();
-        select('.Show-quantity .num-value').innerText = calculateShowQuantity();
-    </script>
+    <script src="control-handler.js"></script>
 </html>

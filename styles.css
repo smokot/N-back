@@ -2,7 +2,7 @@
 .block{
     position: absolute;
     width: 647px;
-    height: 545px;
+    height: 405px;
 
     text-align: center;
     align-items: center;
@@ -176,7 +176,6 @@
         }
     }
 }
-
 .level{
     /* display: none; */
     top: -80px;
@@ -193,18 +192,80 @@
     font-size: 55px;
 }
 
-.tile{
+.card {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 25px;
+    /* height: 252px; */
+
+    .tile{
+        background-size: 70%;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-position-y: center;
+        box-sizing: border-box;
+        width: 140px;
+        height: 160px;
+        background-color: #9cf;
+        border-radius: 10px;
+        margin: 15px;
+    }
+
+    .top {
+        position: absolute;
+        display: inline-block;
+        box-sizing: border-box;
+        text-align: center;
+        align-items: center;
+        font-family: monospace;
+        background-color: #007fff;
+        border-radius: 5px;
+        width: 250px;
+        height: max-content;
+        margin-top: -25px;
+    }
+    .down {
+        position: absolute;
+        box-sizing: border-box;
+        display: inline-block;
+        text-align: center;
+        font-family: monospace;
+        background-color: #007fff;
+        border-radius: 5px;
+        width: 250px;
+        height: max-content;
+        top: 182px;
+
+        &.down_ex {
+            top: 245px;
+        }
+    }
+    
+}
+
+.subtile{
     background-size: 70%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
-    
     box-sizing: border-box;
-    width: 140px;
-    height: 160px;
-    background-color: #9cf;
+    width: 180px;
+    height: 47px;
+    background-color: rgb(0 131 255);
     border-radius: 10px;
-    margin: 15px;
+    margin-left: -20px;
+    
+    font-family: monospace;
+    align-content: center;
+
+    &.top {
+        margin-top: -48px;
+    }
+    &.down {
+        margin-top: 147px;
+    }
 }
 
 .button {
@@ -275,14 +336,11 @@
     &.image {
         background-image: url('pictures/stimulButtons/image.png');
     }
-    &.image-category {
-        background-image: url('pictures/stimulButtons/image-category.png');
-    }
-    &.audio-category {
-        background-image: url('pictures/stimulButtons/audio-category.png');
-    }
     &.tile-border {
         background-image: url('pictures/stimulButtons/tile-border.png');
+    }
+    &.math {
+        background-image: url('pictures/stimulButtons/math.png');
     }
     &.keyboard_key_c{
         background-image: url('pictures/interface/adaptive/keyboard_key_c.png');
