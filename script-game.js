@@ -102,15 +102,18 @@ function stimulReady(type){
 function handleKeyDown(event){
     if(data['is_tile_locked'] == false && select('.block.result').style['display'] == 'none')
     {
-        if(event.code == 'Space' || event.button == 0){
+        let className       = (event.target.classList[2] ?? '');
+        let isStimulReady   = className && event.button == 0;
+
+        let isTile          = (event.target.classList[0] ?? '') == 'tile';
+        let isButtonPressed = event.code == 'Space' || isTile;
+
+        if(isStimulReady){
+            stimulReady(className + 's');
+        }
+        else if(isButtonPressed){
             stimulReady('afk');
             step();
-        }
-        
-        if(event.button == 0){
-            if(className = event.target.classList[2] ?? ''){
-                stimulReady(className + 's');
-            }
         }
     }
 }
